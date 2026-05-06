@@ -1312,9 +1312,7 @@ const AuthScreen = () => {
             {isLogin ? 'Cadastre-se' : 'Faça login'}
           </button>
         </p>
-        <p className="text-center text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mt-6">
-          Ano atual 2026
-        </p>
+        {/* Removed attribution footer */}
       </div>
     </motion.div>
   );
