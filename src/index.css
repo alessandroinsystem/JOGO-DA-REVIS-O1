@@ -7,13 +7,33 @@
   --font-lexend: "Outfit", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   
-  --color-primary: #1A237E;
-  --color-primary-container: #E8EAF6;
-  --color-secondary: #C5A059;
-  --color-card-bg: #FFFFFF;
-  --color-card-border: #E8EAF6;
-  --color-bg-main: #fdfcf9;
-  --color-text-main: #1a1a1a;
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-secondary: var(--secondary);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
+  --color-bg-main: var(--bg-main);
+  --color-text-main: var(--text-main);
+}
+
+:root {
+  --primary: #1A237E;
+  --primary-container: #E8EAF6;
+  --secondary: #C5A059;
+  --card-bg: #FFFFFF;
+  --card-border: #E8EAF6;
+  --bg-main: #fdfcf9;
+  --text-main: #1a1a1a;
+}
+
+.dark {
+  --primary: #9FA8DA;
+  --primary-container: #1A237E;
+  --secondary: #D4AF37;
+  --card-bg: #1E1E1E;
+  --card-border: #2C2F48;
+  --bg-main: #0B0E14;
+  --text-main: #E2E8F0;
 }
 
 @layer base {

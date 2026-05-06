@@ -331,7 +331,7 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
   user: SupabaseUser | null,
   onNavigate?: (s: Screen) => void
 }) => (
-  <header className="bg-white/70 backdrop-blur-2xl border-b border-primary/5 fixed top-0 w-full z-50 transition-all">
+  <header className="bg-card-bg/70 backdrop-blur-2xl border-b border-primary/5 fixed top-0 w-full z-50 transition-all">
     <div className="flex justify-between items-center px-6 h-20 max-w-7xl mx-auto">
       <div className="flex items-center gap-4">
         <div className="md:hidden">
@@ -371,7 +371,7 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
         </div>
         <button 
           onClick={onToggleTheme}
-          className="p-3 rounded-full bg-white shadow-md text-secondary hover:bg-secondary/5 transition-all active:scale-90 border border-slate-50"
+          className="p-3 rounded-full bg-card-bg shadow-md text-secondary hover:bg-secondary/5 transition-all active:scale-90 border border-primary/10"
         >
           {isDarkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
         </button>
@@ -382,7 +382,7 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
 
 
 const BottomNav = ({ active, onChange }: { active: Screen, onChange: (s: Screen) => void }) => (
-  <nav className="md:hidden bg-white/80 backdrop-blur-2xl fixed bottom-0 w-full border-t border-primary/5 shadow-[0_-10px_40px_rgba(26,35,126,0.08)] z-50 transition-all">
+  <nav className="md:hidden bg-card-bg/80 backdrop-blur-2xl fixed bottom-0 w-full border-t border-primary/5 shadow-[0_-10px_40px_rgba(26,35,126,0.08)] z-50 transition-all">
     <div className="flex justify-around items-center px-6 h-24 max-w-lg mx-auto">
       <NavItem 
         icon={<Home className="w-6 h-6" />} 
@@ -407,7 +407,7 @@ const BottomNav = ({ active, onChange }: { active: Screen, onChange: (s: Screen)
 );
 
 const Sidebar = ({ active, onChange, user }: { active: Screen, onChange: (s: Screen) => void, user: SupabaseUser | null }) => (
-  <aside className="hidden md:flex flex-col w-64 fixed left-0 top-0 h-full bg-white border-r border-primary/5 pt-28 px-6 z-40">
+  <aside className="hidden md:flex flex-col w-64 fixed left-0 top-0 h-full bg-card-bg border-r border-primary/5 pt-28 px-6 z-40">
     <div className="flex flex-col gap-2 flex-grow">
       <SidebarItem 
         icon={<Home className="w-5 h-5" />} 
@@ -491,7 +491,7 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
       <p className="text-slate-500 text-sm font-medium">Sua disciplina está em 12 dias. Siga firme rumo à excelência.</p>
     </section>
 
-    <section className="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/20 shadow-2xl shadow-primary/5 space-y-6 relative overflow-hidden group md:grid md:grid-cols-2 md:gap-10 md:space-y-0">
+    <section className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/20 shadow-2xl shadow-primary/5 space-y-6 relative overflow-hidden group md:grid md:grid-cols-2 md:gap-10 md:space-y-0">
       <div className="absolute top-0 right-0 w-40 h-40 bg-secondary/5 rounded-full -mr-20 -mt-20 blur-3xl transition-transform group-hover:scale-120" />
       
       <div className="space-y-6 flex flex-col justify-center">
@@ -509,13 +509,13 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
         </div>
 
         <div className="flex gap-5 relative z-10">
-          <div className="flex items-center gap-3 bg-white/50 p-2 pr-4 rounded-2xl border border-white/50">
+          <div className="flex items-center gap-3 bg-card-bg/50 p-2 pr-4 rounded-2xl border border-white/50">
             <div className="p-2 bg-secondary/10 rounded-xl">
               <CircleCheck className="w-4 h-4 text-secondary" />
             </div>
             <span className="text-[11px] font-black text-primary uppercase tracking-tighter">3 Simulados</span>
           </div>
-          <div className="flex items-center gap-3 bg-white/50 p-2 pr-4 rounded-2xl border border-white/50">
+          <div className="flex items-center gap-3 bg-card-bg/50 p-2 pr-4 rounded-2xl border border-white/50">
             <div className="p-2 bg-primary/5 rounded-xl">
               <FileText className="w-4 h-4 text-primary" />
             </div>
@@ -571,7 +571,7 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
                 <div className="w-8 h-8 rounded-full border-2 border-primary bg-secondary flex items-center justify-center text-[10px] font-bold text-primary shadow-lg">DR</div>
                 <div className="w-8 h-8 rounded-full border-2 border-primary bg-primary-container"></div>
              </div>
-             <button className="bg-white text-primary px-5 py-2.5 rounded-2xl font-bold text-xs shadow-xl flex items-center gap-2 hover:bg-secondary hover:text-primary-container transition-colors">
+             <button className="bg-card-bg text-primary px-5 py-2.5 rounded-2xl font-bold text-xs shadow-xl flex items-center gap-2 hover:bg-secondary hover:text-primary-container transition-colors">
                 Retomar Estudo <Play className="w-3 h-3 fill-current" />
              </button>
           </div>
@@ -643,7 +643,7 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
 const RecommendationCard = ({ image, subject, title, duration, onClick }: { image: string, subject: string, title: string, duration: string, onClick?: () => void }) => (
   <div 
     onClick={onClick}
-    className="w-full bg-white border border-secondary/10 rounded-3xl overflow-hidden shadow-lg shadow-primary/5 hover:shadow-primary/10 transition-all cursor-pointer group"
+    className="w-full bg-card-bg border border-secondary/10 rounded-3xl overflow-hidden shadow-lg shadow-primary/5 hover:shadow-primary/10 transition-all cursor-pointer group"
   >
     <div className="h-32 w-full overflow-hidden relative">
       <img 
@@ -672,7 +672,7 @@ const SubjectSummary = ({ icon, label, count, color, text, onClick }: { key?: Re
     onClick={onClick}
     className={`${color} p-5 rounded-3xl flex items-center gap-4 cursor-pointer hover:scale-[1.05] transition-all border border-secondary/10 shadow-sm shadow-primary/5 active:scale-95`}
   >
-    <div className="bg-white p-3 rounded-2xl shadow-md text-primary transition-colors border border-slate-50">
+    <div className="bg-card-bg p-3 rounded-2xl shadow-md text-primary transition-colors border border-primary/10">
       {icon}
     </div>
     <div>
@@ -735,7 +735,7 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
             setSearch(e.target.value);
             setVisibleLimit(4);
           }}
-          className="w-full bg-white border-2 border-secondary/10 rounded-[2rem] py-5 pl-14 pr-6 outline-none focus:border-secondary transition-all font-sans shadow-xl shadow-primary/5 text-primary placeholder:text-slate-300 font-medium"
+          className="w-full bg-card-bg border-2 border-secondary/10 rounded-[2rem] py-5 pl-14 pr-6 outline-none focus:border-secondary transition-all font-sans shadow-xl shadow-primary/5 text-primary placeholder:text-slate-300 font-medium"
         />
       </div>
 
@@ -750,7 +750,7 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
               className="grid md:grid-cols-2 gap-6"
             >
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="bg-white border border-secondary/10 p-5 rounded-3xl flex gap-5 shadow-lg shadow-primary/5 animate-pulse transition-colors">
+                <div key={i} className="bg-card-bg border border-secondary/10 p-5 rounded-3xl flex gap-5 shadow-lg shadow-primary/5 animate-pulse transition-colors">
                   <div className="w-24 h-24 rounded-2xl bg-slate-50 flex-shrink-0" />
                   <div className="flex-1 space-y-3 py-2">
                     <div className="flex justify-between items-start">
@@ -777,7 +777,7 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
                   onClick={() => startQuiz(sub.id)}
-                  className="bg-white border border-secondary/10 p-5 rounded-[2rem] flex gap-5 hover:border-secondary transition-all cursor-pointer shadow-lg shadow-primary/5 group active:scale-[0.98]"
+                  className="bg-card-bg border border-secondary/10 p-5 rounded-[2rem] flex gap-5 hover:border-secondary transition-all cursor-pointer shadow-lg shadow-primary/5 group active:scale-[0.98]"
                 >
                   <div className={`w-24 h-24 rounded-2xl ${sub.color} flex items-center justify-center flex-shrink-0 group-hover:rotate-3 transition-transform shadow-inner`}>
                     {sub.icon}
@@ -1010,7 +1010,7 @@ const ResultsScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
         <StatCard variant="danger" value={totalQuestions - lastScore} label="Improcedentes" />
       </div>
 
-      <section className="bg-white p-8 rounded-[2.5rem] border border-secondary/10 shadow-xl shadow-primary/5 space-y-5">
+      <section className="bg-card-bg p-8 rounded-[2.5rem] border border-secondary/10 shadow-xl shadow-primary/5 space-y-5">
         <div className="flex justify-between items-center">
           <h3 className="font-display font-bold text-lg text-primary leading-none">Carreira Jurídica</h3>
           <span className="text-[10px] text-secondary font-black tracking-widest uppercase bg-secondary/10 px-2 py-1 rounded">Mestre</span>
@@ -1030,7 +1030,7 @@ const ResultsScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
         </button>
         <button 
           onClick={() => onNavigate('explore')}
-          className="w-full bg-white text-primary border-2 border-secondary/20 font-black text-xs uppercase tracking-widest py-5 rounded-[2rem] flex items-center justify-center gap-3 active:scale-95 transition-all hover:bg-secondary/5 hover:border-secondary transition-colors shadow-lg shadow-primary/5"
+          className="w-full bg-card-bg text-primary border-2 border-secondary/20 font-black text-xs uppercase tracking-widest py-5 rounded-[2rem] flex items-center justify-center gap-3 active:scale-95 transition-all hover:bg-secondary/5 hover:border-secondary transition-colors shadow-lg shadow-primary/5"
         >
           <Scale className="w-5 h-5 text-secondary" /> Novo Simulado
         </button>
@@ -1050,7 +1050,7 @@ const MasteryItem = ({ label, percentage, icon }: { label: string, percentage: n
 );
 
 const StatCard = ({ variant, value, label }: { variant: 'success' | 'danger', value: number, label: string }) => (
-  <div className="bg-white p-6 rounded-[2.5rem] border border-secondary/10 flex flex-col items-center justify-center text-center shadow-xl shadow-primary/5 transition-all hover:border-secondary/30 relative overflow-hidden group">
+  <div className="bg-card-bg p-6 rounded-[2.5rem] border border-secondary/10 flex flex-col items-center justify-center text-center shadow-xl shadow-primary/5 transition-all hover:border-secondary/30 relative overflow-hidden group">
     <div className={`absolute top-0 left-0 w-full h-1 ${variant === 'success' ? 'bg-secondary' : 'bg-red-500'}`} />
     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-transform group-hover:rotate-12 ${variant === 'success' ? 'bg-secondary/10 text-secondary border border-secondary/20 shadow-inner' : 'bg-red-50 text-red-500 border border-red-100 shadow-inner'}`}>
       {variant === 'success' ? <CircleCheck className="w-7 h-7" /> : <RefreshCcw className="w-7 h-7" />}
@@ -1545,7 +1545,7 @@ const ConfigErrorScreen = () => (
 );
 
 const ProfileStat = ({ value, label }: { value: string, label: string }) => (
-  <div className="bg-white p-5 rounded-[2rem] shadow-xl shadow-primary/5 border border-secondary/10 text-center transition-all hover:scale-105 group">
+  <div className="bg-card-bg p-5 rounded-[2rem] shadow-xl shadow-primary/5 border border-secondary/10 text-center transition-all hover:scale-105 group">
     <p className="text-2xl text-primary mb-1">{value}</p>
     <p className="text-[9px] font-black text-secondary dark:text-secondary uppercase tracking-[0.2em]">{label}</p>
   </div>
@@ -1563,7 +1563,7 @@ const Achievement = ({ badge, label, color }: { badge: React.ReactNode, label: s
 const SettingsAction = ({ icon, label, danger = false, onClick }: { icon: React.ReactNode, label: string, danger?: boolean, onClick?: () => void }) => (
   <button 
     onClick={onClick}
-    className={`w-full flex items-center justify-between p-6 bg-white rounded-[2rem] shadow-lg shadow-primary/5 border border-secondary/5 active:scale-[0.98] transition-all group ${danger ? 'text-red-500 hover:bg-red-50 hover:border-red-100' : 'text-slate-600 hover:border-secondary hover:bg-secondary/5'}`}
+    className={`w-full flex items-center justify-between p-6 bg-card-bg rounded-[2rem] shadow-lg shadow-primary/5 border border-secondary/5 active:scale-[0.98] transition-all group ${danger ? 'text-red-500 hover:bg-red-50 hover:border-red-100' : 'text-slate-600 hover:border-secondary hover:bg-secondary/5'}`}
   >
     <div className="flex items-center gap-4">
       <div className={`p-2.5 rounded-2xl transition-colors ${danger ? 'bg-red-50 text-red-500' : 'bg-slate-50 text-slate-400 group-hover:text-secondary'}`}>
