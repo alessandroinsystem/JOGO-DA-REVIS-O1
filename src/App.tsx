@@ -1586,10 +1586,19 @@ export default function App() {
   useEffect(() => {
     if (!supabase) return;
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if (!session) setScreen('auth');
-    });
+    const checkSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        setSession(session);
+        if (!session) setScreen('auth');
+      } catch (err) {
+        console.error('Erro de conexão com Supabase:', err);
+        // Se falhar o fetch inicial, provavelmente as chaves estão erradas
+        setScreen('auth');
+      }
+    };
+
+    checkSession();
 
     const {
       data: { subscription },
