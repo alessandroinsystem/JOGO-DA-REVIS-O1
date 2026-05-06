@@ -349,6 +349,7 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
                 src={user.user_metadata?.avatar_url || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"} 
                 alt="User" 
                 className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
               />
             </div>
           )}
@@ -374,10 +375,6 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
         >
           {isDarkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
         </button>
-        <div className="flex items-center gap-2 px-4 py-2.5 bg-primary text-white rounded-2xl shadow-xl shadow-primary/20 border border-primary/10">
-          <Flame className="w-4 h-4 text-secondary fill-secondary" />
-          <span className="font-black text-sm tracking-tighter">12</span>
-        </div>
       </div>
     </div>
   </header>
@@ -445,6 +442,7 @@ const Sidebar = ({ active, onChange, user }: { active: Screen, onChange: (s: Scr
             src={user.user_metadata?.avatar_url || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"} 
             alt="User" 
             className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
           />
         </div>
         <div className="flex-1 overflow-hidden">
@@ -533,7 +531,7 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
           <div className="flex justify-center -space-x-3 mt-4">
             {[1,2,3,4].map(i => (
               <div key={i} className="w-10 h-10 rounded-full border-4 border-white bg-slate-100 shadow-lg overflow-hidden">
-                <img src={`https://i.pravatar.cc/150?u=${i}`} alt="Avatar" />
+                <img src={`https://i.pravatar.cc/150?u=${i}`} alt="Avatar" referrerPolicy="no-referrer" />
               </div>
             ))}
           </div>
@@ -556,11 +554,12 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
         }}
         className="relative h-48 rounded-3xl overflow-hidden cursor-pointer group active:scale-[0.98] transition-all shadow-2xl shadow-primary/10 border border-white"
       >
-        <img 
-          src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop" 
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          alt="Direito Constitucional"
-        />
+      <img 
+        src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop" 
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        alt="Direito Constitucional"
+        referrerPolicy="no-referrer"
+      />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent p-6 flex flex-col justify-end">
           <div className="space-y-1">
             <span className="inline-block bg-secondary text-primary-container text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-tighter mb-2">EM REVISÃO</span>
@@ -584,7 +583,7 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
       <h3 className="text-2xl text-primary">Recomendado</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <RecommendationCard 
-          image="https://images.unsplash.com/photo-1574950578143-85f8a971bb44?q=80&w=400&auto=format&fit=crop"
+          image="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=600&auto=format&fit=crop"
           subject="Direito Civil"
           title="Responsabilidade Civil e Danos"
           duration="25 min"
@@ -647,7 +646,12 @@ const RecommendationCard = ({ image, subject, title, duration, onClick }: { imag
     className="w-full bg-white border border-secondary/10 rounded-3xl overflow-hidden shadow-lg shadow-primary/5 hover:shadow-primary/10 transition-all cursor-pointer group"
   >
     <div className="h-32 w-full overflow-hidden relative">
-      <img src={image} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" alt={title} />
+      <img 
+        src={image} 
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" 
+        alt={title}
+        referrerPolicy="no-referrer" 
+      />
       <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
         <Play className="w-8 h-8 text-white fill-white" />
       </div>
@@ -839,6 +843,7 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
             src="https://images.unsplash.com/photo-1505664194762-85b1758c5f40?q=80&w=500&auto=format&fit=crop" 
             alt="Justiça"
             className="w-full h-full object-cover transition-transform duration-[10s] group-hover:scale-110"
+            referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent p-6 flex flex-col justify-end">
             <span className="bg-amber-400 text-primary text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-2">JURISPRUDÊNCIA</span>
@@ -910,6 +915,7 @@ const QuizScreen = ({ questions, onComplete }: { questions: any[], onComplete: (
               src={question.image} 
               className="w-full h-48 object-cover opacity-90 dark:opacity-75"
               alt="Contexto Jurídico"
+              referrerPolicy="no-referrer"
             />
           </div>
         </section>
@@ -1072,6 +1078,7 @@ const ProfileScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, 
             src={user?.user_metadata?.avatar_url || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop"} 
             className="w-full h-full object-cover transition-transform group-hover:scale-110"
             alt="Avatar"
+            referrerPolicy="no-referrer"
           />
           <div 
             onClick={() => onNavigate('edit-profile')}
@@ -1116,7 +1123,7 @@ const ProfileScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, 
             <div className="flex items-center gap-4">
               <span className="font-display font-bold text-2xl text-primary">#12</span>
               <div className="w-12 h-12 rounded-full border-2 border-white shadow-md overflow-hidden bg-primary-container">
-                <img src={user?.user_metadata?.avatar_url || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"} alt="Você" />
+                <img src={user?.user_metadata?.avatar_url || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"} alt="Você" referrerPolicy="no-referrer" />
               </div>
               <div>
                 <p className="font-display font-bold text-base text-primary">{user?.user_metadata?.full_name || 'Você'}</p>
@@ -1387,7 +1394,7 @@ const AuthScreen = () => {
           onClick={handleGoogleLogin}
           className="w-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-card-border font-bold py-4 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-transform"
         >
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-5 h-5" alt="Google" />
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-5 h-5" alt="Google" referrerPolicy="no-referrer" />
           Login com Google
         </button>
 
@@ -1465,6 +1472,7 @@ const EditProfileScreen = ({ user, onBack }: { user: SupabaseUser | null, onBack
               src={avatarUrl || "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200&auto=format&fit=crop"} 
               className="w-full h-full object-cover"
               alt="Avatar Preview"
+              referrerPolicy="no-referrer"
             />
           </div>
           <label className="absolute bottom-0 right-0 bg-primary text-white p-2.5 rounded-full cursor-pointer shadow-lg hover:scale-110 active:scale-95 transition-transform border-4 border-card-bg">
