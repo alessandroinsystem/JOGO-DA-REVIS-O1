@@ -331,7 +331,7 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
   user: SupabaseUser | null,
   onNavigate?: (s: Screen) => void
 }) => (
-  <header className="bg-white/90 backdrop-blur-md border-b border-secondary/10 fixed top-0 w-full z-50 transition-all">
+  <header className="bg-white/70 backdrop-blur-2xl border-b border-primary/5 fixed top-0 w-full z-50 transition-all">
     <div className="flex justify-between items-center px-6 h-20 max-w-lg mx-auto">
       <div className="flex items-center gap-4">
         {showBack && (
@@ -342,7 +342,7 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
         {!showBack && user && (
           <div 
             onClick={() => onNavigate?.('profile')}
-            className="w-10 h-10 rounded-2xl overflow-hidden border-2 border-white shadow-xl bg-primary-container group cursor-pointer transition-transform hover:scale-105 active:scale-95"
+            className="w-11 h-11 rounded-full overflow-hidden border-2 border-white shadow-xl bg-primary-container group cursor-pointer transition-all hover:scale-110 active:scale-95 ring-2 ring-secondary/20"
           >
             <img 
               src={user.user_metadata?.avatar_url || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"} 
@@ -351,17 +351,17 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
             />
           </div>
         )}
-        <span className="font-display font-bold text-xl text-primary tracking-tight truncate max-w-[180px]">{title}</span>
+        <span className="font-display font-bold text-lg text-primary tracking-tight truncate max-w-[180px]">{title}</span>
       </div>
       
       <div className="flex items-center gap-3">
         <button 
           onClick={onToggleTheme}
-          className="p-3 rounded-2xl bg-secondary/5 text-secondary hover:bg-secondary/10 transition-all active:scale-90 border border-secondary/10"
+          className="p-3 rounded-full bg-white shadow-md text-secondary hover:bg-secondary/5 transition-all active:scale-90 border border-slate-50"
         >
           {isDarkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5" />}
         </button>
-        <div className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-2xl shadow-lg border border-primary/20">
+        <div className="flex items-center gap-2 px-4 py-2.5 bg-primary text-white rounded-2xl shadow-xl shadow-primary/20 border border-primary/10">
           <Flame className="w-4 h-4 text-secondary fill-secondary" />
           <span className="font-black text-sm tracking-tighter">12</span>
         </div>
@@ -372,26 +372,39 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
 
 
 const BottomNav = ({ active, onChange }: { active: Screen, onChange: (s: Screen) => void }) => (
-  <nav className="bg-card-bg fixed bottom-0 w-full border-t border-card-border shadow-[0_-2px_10px_rgba(26,35,126,0.05)] z-50 transition-colors">
-    <div className="flex justify-around items-center h-20 px-6 max-w-lg mx-auto">
-      <NavItem active={active === 'home'} onClick={() => onChange('home')} icon={<Home className="w-6 h-6" />} label="Início" />
-      <NavItem active={active === 'explore'} onClick={() => onChange('explore')} icon={<Search className="w-6 h-6" />} label="Explorar" />
-      <NavItem active={active === 'profile'} onClick={() => onChange('profile')} icon={<User className="w-6 h-6" />} label="Perfil" />
+  <nav className="bg-white/80 backdrop-blur-2xl fixed bottom-0 w-full border-t border-primary/5 shadow-[0_-10px_40px_rgba(26,35,126,0.08)] z-50 transition-all">
+    <div className="flex justify-around items-center px-6 h-24 max-w-lg mx-auto">
+      <NavItem 
+        icon={<Home className="w-6 h-6" />} 
+        label="Início" 
+        active={active === 'home'} 
+        onClick={() => onChange('home')} 
+      />
+      <NavItem 
+        icon={<Search className="w-6 h-6" />} 
+        label="Explorar" 
+        active={active === 'explore' || active === 'quiz' || active === 'results'} 
+        onClick={() => onChange('explore')} 
+      />
+      <NavItem 
+        icon={<User className="w-6 h-6" />} 
+        label="Perfil" 
+        active={active === 'profile' || active === 'edit-profile'} 
+        onClick={() => onChange('profile')} 
+      />
     </div>
   </nav>
 );
 
-const NavItem = ({ active, label, icon, onClick }: { active: boolean, label: string, icon: React.ReactNode, onClick: () => void }) => (
+const NavItem = ({ icon, label, active, onClick }: { icon: React.ReactNode, label: string, active: boolean, onClick: () => void }) => (
   <button 
     onClick={onClick}
-    className={`flex flex-col items-center justify-center gap-1 transition-all duration-200 ${
-      active 
-        ? 'text-primary bg-blue-50 dark:bg-blue-900/30 px-5 py-2 rounded-xl scale-105' 
-        : 'text-slate-400 hover:text-primary'
-    }`}
+    className={`flex flex-col items-center gap-1.5 transition-all relative ${active ? 'text-primary scale-110' : 'text-slate-400 opacity-60 hover:opacity-100'}`}
   >
-    {icon}
-    <span className="font-lexend text-xs font-medium">{label}</span>
+    <div className={`p-3 rounded-2xl transition-all duration-300 ${active ? 'bg-primary/10 shadow-inner' : 'bg-transparent'}`}>
+      {icon}
+    </div>
+    <span className={`text-[10px] font-black uppercase tracking-tight transition-all ${active ? 'opacity-100' : 'opacity-0 -translate-y-2'}`}>{label}</span>
   </button>
 );
 
@@ -404,35 +417,40 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
     className="space-y-8 pb-10"
   >
     <section>
-      <h1 className="text-3xl text-primary mb-1">Doutor(a) {user?.user_metadata?.full_name?.split(' ')[0] || 'Estudante'}, bom dia.</h1>
+      <h1 className="text-4xl text-primary mb-1 font-display leading-[1.1]">
+        Doutor(a) {user?.user_metadata?.full_name?.split(' ')[0] || 'Alessandro'}, <span className="text-primary/70 italic">bom dia.</span>
+      </h1>
       <p className="text-slate-500 text-sm font-medium">Sua disciplina está em 12 dias. Siga firme rumo à excelência.</p>
     </section>
 
-    <section className="bg-white p-6 rounded-3xl border border-secondary/20 shadow-xl shadow-primary/5 space-y-5 relative overflow-hidden group">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-secondary/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110" />
+    <section className="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/20 shadow-2xl shadow-primary/5 space-y-6 relative overflow-hidden group">
+      <div className="absolute top-0 right-0 w-40 h-40 bg-secondary/5 rounded-full -mr-20 -mt-20 blur-3xl transition-transform group-hover:scale-120" />
+      
       <div className="flex justify-between items-center relative z-10">
-        <h3 className="font-lexend font-bold text-sm text-primary uppercase tracking-widest">Metas da OAB</h3>
-        <span className="text-xs font-bold text-secondary bg-secondary/10 px-2 py-1 rounded-lg">75% Concluído</span>
+        <h3 className="font-lexend font-extrabold text-[10px] text-primary uppercase tracking-[0.2em]">Metas da OAB</h3>
+        <span className="text-[10px] font-black text-secondary bg-secondary/10 px-3 py-1.5 rounded-xl">75% Concluído</span>
       </div>
-      <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden relative z-10 border border-slate-50">
+
+      <div className="h-3 w-full bg-slate-100/50 rounded-full overflow-hidden relative z-10 border border-white">
         <motion.div 
           initial={{ width: 0 }}
           animate={{ width: '75%' }}
-          className="h-full bg-gradient-to-r from-secondary to-secondary/80 rounded-full"
+          className="h-full bg-gradient-to-r from-secondary via-secondary/80 to-secondary rounded-full shadow-[0_0_15px_rgba(197,160,89,0.3)]"
         />
       </div>
-      <div className="flex gap-6 relative z-10">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-secondary/10 rounded-lg">
+
+      <div className="flex gap-5 relative z-10">
+        <div className="flex items-center gap-3 bg-white/50 p-2 pr-4 rounded-2xl border border-white/50">
+          <div className="p-2 bg-secondary/10 rounded-xl">
             <CircleCheck className="w-4 h-4 text-secondary" />
           </div>
-          <span className="text-xs font-bold text-slate-700">3 Simulados</span>
+          <span className="text-[11px] font-black text-primary uppercase tracking-tighter">3 Simulados</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-primary/5 rounded-lg">
+        <div className="flex items-center gap-3 bg-white/50 p-2 pr-4 rounded-2xl border border-white/50">
+          <div className="p-2 bg-primary/5 rounded-xl">
             <FileText className="w-4 h-4 text-primary" />
           </div>
-          <span className="text-xs font-bold text-slate-700">15 Súmulas</span>
+          <span className="text-[11px] font-black text-primary uppercase tracking-tighter">15 Súmulas</span>
         </div>
       </div>
     </section>
