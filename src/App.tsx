@@ -27,6 +27,7 @@ import {
   RefreshCcw,
   Star,
   LogOut,
+  Trash2,
   Bell,
   Settings,
   TrendingUp,
@@ -1063,7 +1064,14 @@ const StatCard = ({ variant, value, label }: { variant: 'success' | 'danger', va
 const ProfileScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, user: SupabaseUser | null }) => {
   const handleLogout = async () => {
     if (!supabase) return;
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+      localStorage.removeItem('supabase.auth.token'); // Limpeza extra
+      onNavigate('auth');
+    } catch (err) {
+      console.error('Logout error:', err);
+      onNavigate('auth');
+    }
   };
 
   return (
@@ -1241,7 +1249,7 @@ const RemindersScreen = ({ reminders, subjects, onAdd, onDelete, onToggle }: {
                     onClick={() => onDelete(r.id)}
                     className="p-2 text-red-100 hover:text-red-500 transition-colors"
                   >
-                    <LogOut className="w-5 h-5 rotate-180" />
+                    <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
               </div>
