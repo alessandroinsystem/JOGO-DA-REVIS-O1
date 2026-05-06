@@ -1,23 +1,46 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", serif;
   --font-lexend: "Lexend", sans-serif;
 
-  --color-primary: #000666;
-  --color-primary-container: #1a237e;
-  --color-on-primary-container: #8690ee;
-  --color-secondary: #1b6d24;
-  --color-secondary-container: #a0f399;
-  --color-tertiary-fixed-dim: #ffba38;
-  --color-surface-container-highest: #e0e3e6;
-  --color-surface-container-low: #f2f4f7;
+  --color-primary: #1a237e;
+  --color-primary-container: #283593;
+  --color-secondary: #c5a059;
+  --color-secondary-container: #f4e4bc;
+  --color-accent: #8e24aa;
+  
+  --color-bg-main: var(--bg-main);
+  --color-text-main: var(--text-main);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
 }
 
 @layer base {
+  :root {
+    --bg-main: #fdfcf9;
+    --text-main: #1a1a1a;
+    --card-bg: #ffffff;
+    --card-border: #e8e1d5;
+  }
+
+  .dark {
+    --bg-main: #0a0b14;
+    --text-main: #f1f3f9;
+    --card-bg: #141625;
+    --card-border: #2d3045;
+    --color-primary: #9fa8da;
+    --color-secondary: #e9d1a0;
+  }
+
   body {
-    @apply bg-[#f7f9fc] text-[#191c1e] font-sans;
+    @apply bg-bg-main text-text-main font-sans transition-colors duration-300;
+  }
+
+  h1, h2, h3 {
+    @apply font-display tracking-tight;
   }
 }
 
