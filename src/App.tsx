@@ -418,7 +418,7 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
   >
     <section>
       <h1 className="text-4xl text-primary mb-1 font-display leading-[1.1]">
-        Doutor(a) {user?.user_metadata?.full_name?.split(' ')[0] || 'Alessandro'}, <span className="text-primary/70 italic">bom dia.</span>
+        Doutor(a) {user?.user_metadata?.full_name?.split(' ')[0] || 'Alessandro'}
       </h1>
       <p className="text-slate-500 text-sm font-medium">Sua disciplina está em 12 dias. Siga firme rumo à excelência.</p>
     </section>
