@@ -332,29 +332,42 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
   onNavigate?: (s: Screen) => void
 }) => (
   <header className="bg-white/70 backdrop-blur-2xl border-b border-primary/5 fixed top-0 w-full z-50 transition-all">
-    <div className="flex justify-between items-center px-6 h-20 max-w-lg mx-auto">
+    <div className="flex justify-between items-center px-6 h-20 max-w-7xl mx-auto">
       <div className="flex items-center gap-4">
+        <div className="md:hidden">
+          {showBack && (
+            <button onClick={onBack} className="p-2.5 -ml-3 rounded-2xl hover:bg-secondary/10 transition-colors active:scale-90 text-primary">
+              <ArrowLeft className="w-6 h-6" />
+            </button>
+          )}
+          {!showBack && user && (
+            <div 
+              onClick={() => onNavigate?.('profile')}
+              className="w-11 h-11 rounded-full overflow-hidden border-2 border-white shadow-xl bg-primary-container group cursor-pointer transition-all hover:scale-110 active:scale-95 ring-2 ring-secondary/20"
+            >
+              <img 
+                src={user.user_metadata?.avatar_url || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"} 
+                alt="User" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          )}
+        </div>
         {showBack && (
-          <button onClick={onBack} className="p-2.5 -ml-3 rounded-2xl hover:bg-secondary/10 transition-colors active:scale-90 text-primary">
+          <button onClick={onBack} className="hidden md:flex p-2.5 -ml-3 rounded-2xl hover:bg-secondary/10 transition-colors active:scale-90 text-primary items-center gap-2">
             <ArrowLeft className="w-6 h-6" />
+            <span className="text-sm font-bold">Voltar</span>
           </button>
         )}
-        {!showBack && user && (
-          <div 
-            onClick={() => onNavigate?.('profile')}
-            className="w-11 h-11 rounded-full overflow-hidden border-2 border-white shadow-xl bg-primary-container group cursor-pointer transition-all hover:scale-110 active:scale-95 ring-2 ring-secondary/20"
-          >
-            <img 
-              src={user.user_metadata?.avatar_url || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"} 
-              alt="User" 
-              className="w-full h-full object-cover"
-            />
-          </div>
-        )}
-        <span className="font-display font-bold text-lg text-primary tracking-tight truncate max-w-[180px]">{title}</span>
+        <span className="font-display font-bold text-lg text-primary tracking-tight truncate max-w-[180px] md:max-w-none ml-2 md:ml-0">{title}</span>
       </div>
       
       <div className="flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-4 mr-4">
+          <button onClick={() => onNavigate?.('home')} className="text-sm font-bold text-primary hover:text-secondary transition-colors">Início</button>
+          <button onClick={() => onNavigate?.('explore')} className="text-sm font-bold text-primary hover:text-secondary transition-colors">Explorar</button>
+          <button onClick={() => onNavigate?.('profile')} className="text-sm font-bold text-primary hover:text-secondary transition-colors">Perfil</button>
+        </div>
         <button 
           onClick={onToggleTheme}
           className="p-3 rounded-full bg-white shadow-md text-secondary hover:bg-secondary/5 transition-all active:scale-90 border border-slate-50"
@@ -372,7 +385,7 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
 
 
 const BottomNav = ({ active, onChange }: { active: Screen, onChange: (s: Screen) => void }) => (
-  <nav className="bg-white/80 backdrop-blur-2xl fixed bottom-0 w-full border-t border-primary/5 shadow-[0_-10px_40px_rgba(26,35,126,0.08)] z-50 transition-all">
+  <nav className="md:hidden bg-white/80 backdrop-blur-2xl fixed bottom-0 w-full border-t border-primary/5 shadow-[0_-10px_40px_rgba(26,35,126,0.08)] z-50 transition-all">
     <div className="flex justify-around items-center px-6 h-24 max-w-lg mx-auto">
       <NavItem 
         icon={<Home className="w-6 h-6" />} 
@@ -389,11 +402,68 @@ const BottomNav = ({ active, onChange }: { active: Screen, onChange: (s: Screen)
       <NavItem 
         icon={<User className="w-6 h-6" />} 
         label="Perfil" 
-        active={active === 'profile' || active === 'edit-profile'} 
+        active={active === 'profile' || active === 'edit-profile' || active === 'reminders'} 
         onClick={() => onChange('profile')} 
       />
     </div>
   </nav>
+);
+
+const Sidebar = ({ active, onChange, user }: { active: Screen, onChange: (s: Screen) => void, user: SupabaseUser | null }) => (
+  <aside className="hidden md:flex flex-col w-64 fixed left-0 top-0 h-full bg-white border-r border-primary/5 pt-28 px-6 z-40">
+    <div className="flex flex-col gap-2 flex-grow">
+      <SidebarItem 
+        icon={<Home className="w-5 h-5" />} 
+        label="Início" 
+        active={active === 'home'} 
+        onClick={() => onChange('home')} 
+      />
+      <SidebarItem 
+        icon={<Search className="w-5 h-5" />} 
+        label="Explorar Doutrinas" 
+        active={active === 'explore' || active === 'quiz' || active === 'results'} 
+        onClick={() => onChange('explore')} 
+      />
+      <SidebarItem 
+        icon={<Bell className="w-5 h-5" />} 
+        label="Agenda" 
+        active={active === 'reminders'} 
+        onClick={() => onChange('reminders')} 
+      />
+      <SidebarItem 
+        icon={<User className="w-5 h-5" />} 
+        label="Meu Perfil" 
+        active={active === 'profile' || active === 'edit-profile'} 
+        onClick={() => onChange('profile')} 
+      />
+    </div>
+    
+    {user && (
+      <div className="mb-10 p-4 bg-primary/5 rounded-[2rem] border border-primary/5 flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm">
+          <img 
+            src={user.user_metadata?.avatar_url || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop"} 
+            alt="User" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="flex-1 overflow-hidden">
+          <p className="font-bold text-xs text-primary truncate">{user.user_metadata?.full_name || 'Alessandro'}</p>
+          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tighter">OAB Ativa</p>
+        </div>
+      </div>
+    )}
+  </aside>
+);
+
+const SidebarItem = ({ icon, label, active, onClick }: { icon: React.ReactNode, label: string, active: boolean, onClick: () => void }) => (
+  <button 
+    onClick={onClick}
+    className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all font-bold text-sm ${active ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-[1.02]' : 'text-slate-500 hover:bg-primary/5 hover:text-primary'}`}
+  >
+    {icon}
+    <span>{label}</span>
+  </button>
 );
 
 const NavItem = ({ icon, label, active, onClick }: { icon: React.ReactNode, label: string, active: boolean, onClick: () => void }) => (
@@ -423,34 +493,51 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
       <p className="text-slate-500 text-sm font-medium">Sua disciplina está em 12 dias. Siga firme rumo à excelência.</p>
     </section>
 
-    <section className="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/20 shadow-2xl shadow-primary/5 space-y-6 relative overflow-hidden group">
+    <section className="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/20 shadow-2xl shadow-primary/5 space-y-6 relative overflow-hidden group md:grid md:grid-cols-2 md:gap-10 md:space-y-0">
       <div className="absolute top-0 right-0 w-40 h-40 bg-secondary/5 rounded-full -mr-20 -mt-20 blur-3xl transition-transform group-hover:scale-120" />
       
-      <div className="flex justify-between items-center relative z-10">
-        <h3 className="font-lexend font-extrabold text-[10px] text-primary uppercase tracking-[0.2em]">Metas da OAB</h3>
-        <span className="text-[10px] font-black text-secondary bg-secondary/10 px-3 py-1.5 rounded-xl">75% Concluído</span>
-      </div>
-
-      <div className="h-3 w-full bg-slate-100/50 rounded-full overflow-hidden relative z-10 border border-white">
-        <motion.div 
-          initial={{ width: 0 }}
-          animate={{ width: '75%' }}
-          className="h-full bg-gradient-to-r from-secondary via-secondary/80 to-secondary rounded-full shadow-[0_0_15px_rgba(197,160,89,0.3)]"
-        />
-      </div>
-
-      <div className="flex gap-5 relative z-10">
-        <div className="flex items-center gap-3 bg-white/50 p-2 pr-4 rounded-2xl border border-white/50">
-          <div className="p-2 bg-secondary/10 rounded-xl">
-            <CircleCheck className="w-4 h-4 text-secondary" />
-          </div>
-          <span className="text-[11px] font-black text-primary uppercase tracking-tighter">3 Simulados</span>
+      <div className="space-y-6 flex flex-col justify-center">
+        <div className="flex justify-between items-center relative z-10">
+          <h3 className="font-lexend font-extrabold text-[10px] text-primary uppercase tracking-[0.2em]">Metas da OAB</h3>
+          <span className="text-[10px] font-black text-secondary bg-secondary/10 px-3 py-1.5 rounded-xl">75% Concluído</span>
         </div>
-        <div className="flex items-center gap-3 bg-white/50 p-2 pr-4 rounded-2xl border border-white/50">
-          <div className="p-2 bg-primary/5 rounded-xl">
-            <FileText className="w-4 h-4 text-primary" />
+
+        <div className="h-3 w-full bg-slate-100/50 rounded-full overflow-hidden relative z-10 border border-white">
+          <motion.div 
+            initial={{ width: 0 }}
+            animate={{ width: '75%' }}
+            className="h-full bg-gradient-to-r from-secondary via-secondary/80 to-secondary rounded-full shadow-[0_0_15px_rgba(197,160,89,0.3)]"
+          />
+        </div>
+
+        <div className="flex gap-5 relative z-10">
+          <div className="flex items-center gap-3 bg-white/50 p-2 pr-4 rounded-2xl border border-white/50">
+            <div className="p-2 bg-secondary/10 rounded-xl">
+              <CircleCheck className="w-4 h-4 text-secondary" />
+            </div>
+            <span className="text-[11px] font-black text-primary uppercase tracking-tighter">3 Simulados</span>
           </div>
-          <span className="text-[11px] font-black text-primary uppercase tracking-tighter">15 Súmulas</span>
+          <div className="flex items-center gap-3 bg-white/50 p-2 pr-4 rounded-2xl border border-white/50">
+            <div className="p-2 bg-primary/5 rounded-xl">
+              <FileText className="w-4 h-4 text-primary" />
+            </div>
+            <span className="text-[11px] font-black text-primary uppercase tracking-tighter">15 Súmulas</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="hidden md:flex items-center justify-center relative z-10 border-l border-primary/5 pl-10">
+        <div className="text-center space-y-2">
+          <div className="text-4xl font-display font-bold text-primary">1.240 XP</div>
+          <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Até o próximo nível</p>
+          <div className="flex justify-center -space-x-3 mt-4">
+            {[1,2,3,4].map(i => (
+              <div key={i} className="w-10 h-10 rounded-full border-4 border-white bg-slate-100 shadow-lg overflow-hidden">
+                <img src={`https://i.pravatar.cc/150?u=${i}`} alt="Avatar" />
+              </div>
+            ))}
+          </div>
+          <p className="text-[10px] text-slate-400 mt-2 font-medium">Junte-se a outros 4.500 estudantes esta semana</p>
         </div>
       </div>
     </section>
@@ -495,7 +582,7 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
 
     <section className="space-y-4">
       <h3 className="text-2xl text-primary">Recomendado</h3>
-      <div className="flex gap-5 overflow-x-auto no-scrollbar -mx-4 px-4 pb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <RecommendationCard 
           image="https://images.unsplash.com/photo-1574950578143-85f8a971bb44?q=80&w=400&auto=format&fit=crop"
           subject="Direito Civil"
@@ -534,7 +621,7 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
         <h3 className="text-2xl text-primary font-display font-bold">Doutrinas</h3>
         <button onClick={() => onNavigate('explore')} className="text-xs font-black text-secondary uppercase tracking-widest hover:text-primary transition-colors">Ver Todas</button>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {SUBJECTS.slice(0, 4).map(sub => (
           <SubjectSummary 
             key={sub.id}
@@ -557,7 +644,7 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
 const RecommendationCard = ({ image, subject, title, duration, onClick }: { image: string, subject: string, title: string, duration: string, onClick?: () => void }) => (
   <div 
     onClick={onClick}
-    className="min-w-[220px] w-[220px] bg-white border border-secondary/10 rounded-3xl overflow-hidden shadow-lg shadow-primary/5 hover:shadow-primary/10 transition-all cursor-pointer group"
+    className="w-full bg-white border border-secondary/10 rounded-3xl overflow-hidden shadow-lg shadow-primary/5 hover:shadow-primary/10 transition-all cursor-pointer group"
   >
     <div className="h-32 w-full overflow-hidden relative">
       <img src={image} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" alt={title} />
@@ -656,9 +743,9 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="space-y-5"
+              className="grid md:grid-cols-2 gap-6"
             >
-              {[1, 2, 3].map((i) => (
+              {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="bg-white border border-secondary/10 p-5 rounded-3xl flex gap-5 shadow-lg shadow-primary/5 animate-pulse transition-colors">
                   <div className="w-24 h-24 rounded-2xl bg-slate-50 flex-shrink-0" />
                   <div className="flex-1 space-y-3 py-2">
@@ -677,7 +764,7 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
               key="content"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="space-y-5"
+              className="grid md:grid-cols-2 gap-6"
             >
               {displayedSubjects.map((sub, idx) => (
                 <motion.div 
@@ -719,7 +806,7 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
                   animate={{ opacity: 1 }}
                   onClick={loadMore}
                   disabled={isLoading}
-                  className="w-full py-4 border-2 border-secondary/20 rounded-[2rem] text-secondary font-black text-xs uppercase tracking-widest hover:bg-secondary/5 transition-all active:scale-95 flex items-center justify-center gap-2"
+                  className="md:col-span-2 w-full py-4 border-2 border-secondary/20 rounded-[2rem] text-secondary font-black text-xs uppercase tracking-widest hover:bg-secondary/5 transition-all active:scale-95 flex items-center justify-center gap-2"
                 >
                   {isLoading ? (
                     <RefreshCw className="w-4 h-4 animate-spin" />
@@ -730,7 +817,7 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
               )}
 
               {filteredSubjects.length === 0 && (
-                <div className="text-center py-20 space-y-4">
+                <div className="md:col-span-2 text-center py-20 space-y-4">
                   <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto">
                     <Search className="w-8 h-8 text-slate-300" />
                   </div>
@@ -1002,10 +1089,11 @@ const ProfileScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, 
         </div>
       </section>
 
-      <section className="grid grid-cols-3 gap-4">
+      <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <ProfileStat value="142" label="Simulados" />
         <ProfileStat value="88%" label="Precisão" />
         <ProfileStat value="12k" label="Pontos" />
+        <ProfileStat value="Level 4" label="Graduação" />
       </section>
 
       <section className="space-y-4 text-left">
@@ -1583,7 +1671,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen pb-24 transition-colors">
+    <div className="min-h-screen pb-24 md:pb-0 transition-colors bg-bg-main">
       <TopBar 
         title={getTitle()} 
         showBack={screen === 'quiz' || screen === 'results' || screen === 'reminders' || screen === 'edit-profile'} 
@@ -1597,8 +1685,15 @@ export default function App() {
         user={session?.user || null}
         onNavigate={setScreen}
       />
-      <main className="max-w-lg mx-auto pt-24 px-4">
-        {renderScreen()}
+      
+      {session && screen !== 'quiz' && screen !== 'auth' && (
+        <Sidebar active={screen} onChange={setScreen} user={session?.user || null} />
+      )}
+
+      <main className={`max-w-7xl mx-auto pt-24 px-4 ${session && screen !== 'quiz' && screen !== 'auth' ? 'md:pl-72 md:pr-8' : ''}`}>
+        <div className="max-w-4xl mx-auto py-6">
+          {renderScreen()}
+        </div>
       </main>
       
       {session && screen !== 'quiz' && screen !== 'results' && screen !== 'auth' && (
