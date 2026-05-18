@@ -43,7 +43,9 @@ import {
   ShieldCheck,
   RefreshCw,
   FileDown,
-  Download
+  Download,
+  Users,
+  UserPlus
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -81,7 +83,14 @@ const SUBJECTS: Subject[] = [
   { id: 'empresarial', name: 'Direito Empresarial', description: 'Sociedades, falências e títulos de crédito.', quizzes: 62, level: 'Advanced', icon: <Briefcase className="w-8 h-8" />, color: 'bg-cyan-50 text-cyan-900' },
   { id: 'ambiental', name: 'Direito Ambiental', description: 'Proteção ao meio ambiente e sustentabilidade.', quizzes: 45, level: 'Intermediate', icon: <Scale className="w-8 h-8" />, color: 'bg-green-50 text-green-900' },
   { id: 'eleitoral', name: 'Direito Eleitoral', description: 'Sistemas eleitorais e partidos políticos.', quizzes: 38, level: 'Intermediate', icon: <FileText className="w-8 h-8" />, color: 'bg-slate-100 text-slate-900' },
-  { id: 'consumidor', name: 'Direito do Consumidor', description: 'Relações de consumo e proteção ao cliente.', quizzes: 82, level: 'Beginner', icon: <BookOpen className="w-8 h-8" />, color: 'bg-orange-50 text-orange-900' },
+  { id: 'int_privado', name: 'Direito Internacional Privado', description: 'Leis no espaço e jurisdição internacional.', quizzes: 52, level: 'Advanced', icon: <Scale className="w-8 h-8" />, color: 'bg-blue-50 text-blue-900' },
+  { id: 'int_publico', name: 'Direito Internacional Público', description: 'Tratados e relações entre Estados.', quizzes: 48, level: 'Advanced', icon: <Scale className="w-8 h-8" />, color: 'bg-indigo-50 text-indigo-900' },
+  { id: 'proc_civil', name: 'Direito Processual Civil', description: 'Procedimentos judiciais e recursos cíveis.', quizzes: 175, level: 'Intermediate', icon: <Gavel className="w-8 h-8" />, color: 'bg-emerald-50 text-emerald-900' },
+  { id: 'proc_penal', name: 'Direito Processual Penal', description: 'Inquérito, ação penal e provas.', quizzes: 162, level: 'Intermediate', icon: <ShieldAlert className="w-8 h-8" />, color: 'bg-red-50 text-red-900' },
+  { id: 'hermeneutica', name: 'Hermenêutica Jurídica', description: 'Interpretação e aplicação das normas.', quizzes: 34, level: 'Advanced', icon: <Brain className="w-8 h-8" />, color: 'bg-purple-50 text-purple-900' },
+  { id: 'previdencia', name: 'Direito Previdenciário', description: 'Benefícios e custeio da Seguridade Social.', quizzes: 88, level: 'Intermediate', icon: <FileText className="w-8 h-8" />, color: 'bg-amber-50 text-amber-900' },
+  { id: 'proc_penal_militar', name: 'Proc. Penal Militar', description: 'Justiça militar e crimes militares.', quizzes: 22, level: 'Advanced', icon: <ShieldAlert className="w-8 h-8" />, color: 'bg-slate-50 text-slate-900' },
+  { id: 'direitos_humanos', name: 'Direitos Humanos', description: 'Dignidade humana e proteção internacional.', quizzes: 112, level: 'Beginner', icon: <Star className="w-8 h-8" />, color: 'bg-yellow-50 text-yellow-900' },
   { id: 'vademecum', name: 'Vade Mecum', description: 'Consulta rápida às principais leis e códigos.', quizzes: 0, level: 'Beginner', icon: <Gavel className="w-8 h-8" />, color: 'bg-stone-100 text-stone-900' },
 ];
 
@@ -646,6 +655,94 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
     }
   ],
+  int_privado: [
+    {
+      id: 1,
+      subject: "Direito Internacional Privado",
+      topic: "LINDB",
+      question: "Para qualificar os bens e regular as relações a eles concernentes, aplica-se a lei do país em que:",
+      options: ["Eles estiverem situados", "O proprietário residir", "O contrato foi assinado", "A ação for proposta"],
+      correct: 0,
+      image: "https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  int_publico: [
+    {
+      id: 1,
+      subject: "Direito Internacional Público",
+      topic: "Tratados",
+      question: "O ato unilateral pelo qual um Estado indica seu consentimento em vincular-se a um tratado, após a assinatura, denomina-se:",
+      options: ["Adesão", "Ratificação", "Promulgação", "Reserva"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  proc_civil: [
+    {
+      id: 1,
+      subject: "Direito Processual Civil",
+      topic: "Prazos",
+      question: "Na contagem de prazo em dias, estabelecido por lei ou pelo juiz, computar-se-ão apenas os dias:",
+      options: ["Corridos", "Úteis", "De expediente bancário", "De plantão judiciário"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  proc_penal: [
+    {
+      id: 1,
+      subject: "Direito Processual Penal",
+      topic: "Inquérito",
+      question: "O inquérito policial é um procedimento administrativo:",
+      options: ["Judicial e obrigatório", "Inquisitivo e facultativo", "Público e contraditório", "Sempre presidido por juiz"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1453941403244-67253457053e?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  hermeneutica: [
+    {
+      id: 1,
+      subject: "Hermenêutica Jurídica",
+      topic: "Interpretação",
+      question: "A interpretação que busca o sentido da norma através da análise da evolução histórica e social é a:",
+      options: ["Gramatical", "Sistemática", "Teleológica ou Sociológica", "Histórica"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  previdencia: [
+    {
+      id: 1,
+      subject: "Direito Previdenciário",
+      topic: "Benefícios",
+      question: "O auxílio-reclusão é devido aos dependentes do segurado de:",
+      options: ["Qualquer renda", "Baixa renda", "Mais de 10 anos de contribuição", "Renda variável"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  proc_penal_militar: [
+    {
+      id: 1,
+      subject: "Proc. Penal Militar",
+      topic: "Prisão",
+      question: "A prisão em flagrante delito poderá ser efetuada:",
+      options: ["Apenas por oficiais", "Apenas por superiores", "Por qualquer pessoa, em caso de crime propriamente militar", "Apenas mediante ordem judicial"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1507567784013-138350616149?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  direitos_humanos: [
+    {
+      id: 1,
+      subject: "Direitos Humanos",
+      topic: "Pactos",
+      question: "A Declaração Universal dos Direitos Humanos foi adotada pela ONU em:",
+      options: ["1945", "1948", "1966", "1988"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
   consumidor: [
     {
       id: 1,
@@ -868,67 +965,85 @@ const NavItem = ({ icon, label, active, onClick }: { icon: React.ReactNode, labe
 
 // --- Pages ---
 
-const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Screen) => void, user: SupabaseUser | null, simulations?: number }) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    className="space-y-8 pb-10"
-  >
-    <section>
-      <h1 className="text-4xl text-primary mb-1 font-display leading-[1.1]">
-        Doutor(a) {user?.user_metadata?.full_name?.split(' ')[0] || 'Alessandro'}
-      </h1>
-      <p className="text-slate-500 text-sm font-medium">Sua disciplina está em 12 dias. Siga firme rumo à excelência.</p>
-    </section>
+const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Screen) => void, user: SupabaseUser | null, simulations?: number }) => {
+  const recentUsers = [
+    { name: "Juliana", avatar: "https://i.pravatar.cc/150?u=12" },
+    { name: "Marcos", avatar: "https://i.pravatar.cc/150?u=45" },
+    { name: "Fernanda", avatar: "https://i.pravatar.cc/150?u=89" },
+    { name: "Ricardo", avatar: "https://i.pravatar.cc/150?u=33" }
+  ];
 
-    <section className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/20 shadow-2xl shadow-primary/5 space-y-6 relative overflow-hidden group md:grid md:grid-cols-2 md:gap-10 md:space-y-0">
-      <div className="absolute top-0 right-0 w-40 h-40 bg-secondary/5 rounded-full -mr-20 -mt-20 blur-3xl transition-transform group-hover:scale-120" />
-      
-      <div className="space-y-6 flex flex-col justify-center">
-        <div className="flex justify-between items-center relative z-10">
-          <h3 className="font-lexend font-extrabold text-[10px] text-primary uppercase tracking-[0.2em]">Metas da OAB</h3>
-          <span className="text-[10px] font-black text-secondary bg-secondary/10 px-3 py-1.5 rounded-xl">{simulations > 0 ? (simulations * 10).toString().substring(0, 2) : '0'}% Concluído</span>
-        </div>
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-8 pb-10"
+    >
+      <section>
+        <h1 className="text-4xl text-primary mb-1 font-display leading-[1.1]">
+          Doutor(a) {user?.user_metadata?.full_name?.split(' ')[0] || 'Alessandro'}
+        </h1>
+        <p className="text-slate-500 text-sm font-medium">Sua disciplina está em 12 dias. Siga firme rumo à excelência.</p>
+      </section>
 
-        <div className="h-3 w-full bg-slate-100/50 rounded-full overflow-hidden relative z-10 border border-white">
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: simulations > 0 ? `${Math.min(simulations * 10, 100)}%` : '0%' }}
-            className="h-full bg-gradient-to-r from-secondary via-secondary/80 to-secondary rounded-full shadow-[0_0_15px_rgba(197,160,89,0.3)]"
-          />
-        </div>
-
-        <div className="flex gap-5 relative z-10">
-          <div className="flex items-center gap-3 bg-card-bg/50 p-2 pr-4 rounded-2xl border border-white/50">
-            <div className="p-2 bg-secondary/10 rounded-xl">
-              <CircleCheck className="w-4 h-4 text-secondary" />
-            </div>
-            <span className="text-[11px] font-black text-primary uppercase tracking-tighter">{simulations} Simulados</span>
+      <section className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/20 shadow-2xl shadow-primary/5 space-y-6 relative overflow-hidden group md:grid md:grid-cols-2 md:gap-10 md:space-y-0">
+        <div className="absolute top-0 right-0 w-40 h-40 bg-secondary/5 rounded-full -mr-20 -mt-20 blur-3xl transition-transform group-hover:scale-120" />
+        
+        <div className="space-y-6 flex flex-col justify-center">
+          <div className="flex justify-between items-center relative z-10">
+            <h3 className="font-lexend font-extrabold text-[10px] text-primary uppercase tracking-[0.2em]">Metas da OAB</h3>
+            <span className="text-[10px] font-black text-secondary bg-secondary/10 px-3 py-1.5 rounded-xl">{simulations > 0 ? (simulations * 10).toString().substring(0, 2) : '0'}% Concluído</span>
           </div>
-          <div className="flex items-center gap-3 bg-card-bg/50 p-2 pr-4 rounded-2xl border border-white/50">
-            <div className="p-2 bg-primary/5 rounded-xl">
-              <FileText className="w-4 h-4 text-primary" />
-            </div>
-            <span className="text-[11px] font-black text-primary uppercase tracking-tighter">0 Súmulas</span>
-          </div>
-        </div>
-      </div>
 
-      <div className="hidden md:flex items-center justify-center relative z-10 border-l border-primary/5 pl-10">
-        <div className="text-center space-y-2">
-          <div className="text-4xl font-display font-bold text-primary">1.240 XP</div>
-          <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">Até o próximo nível</p>
-          <div className="flex justify-center -space-x-3 mt-4">
-            {[1,2,3,4].map(i => (
-              <div key={i} className="w-10 h-10 rounded-full border-4 border-white bg-slate-100 shadow-lg overflow-hidden">
-                <img src={`https://i.pravatar.cc/150?u=${i}`} alt="Avatar" referrerPolicy="no-referrer" />
+          <div className="h-3 w-full bg-slate-100/50 rounded-full overflow-hidden relative z-10 border border-white">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: simulations > 0 ? `${Math.min(simulations * 10, 100)}%` : '0%' }}
+              className="h-full bg-gradient-to-r from-secondary via-secondary/80 to-secondary rounded-full shadow-[0_0_15px_rgba(197,160,89,0.3)]"
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-4 relative z-10">
+            <div className="flex items-center gap-3 bg-card-bg/50 p-2 pr-4 rounded-2xl border border-white/50">
+              <div className="p-2 bg-secondary/10 rounded-xl">
+                <CircleCheck className="w-4 h-4 text-secondary" />
               </div>
-            ))}
+              <span className="text-[11px] font-black text-primary uppercase tracking-tighter">{simulations} Simulados</span>
+            </div>
+            <div className="flex items-center gap-3 bg-card-bg/50 p-2 pr-4 rounded-2xl border border-white/50">
+              <div className="p-2 bg-primary/20 rounded-xl">
+                <Users className="w-4 h-4 text-primary" />
+              </div>
+              <span className="text-[11px] font-black text-primary uppercase tracking-tighter">15.742 Inscritos</span>
+            </div>
           </div>
-          <p className="text-[10px] text-slate-400 mt-2 font-medium">Junte-se a outros 4.500 estudantes esta semana</p>
         </div>
-      </div>
-    </section>
+
+        <div className="hidden md:flex items-center justify-center relative z-10 border-l border-primary/5 pl-10">
+          <div className="text-center space-y-3">
+            <div className="text-4xl font-display font-bold text-primary">1.240 XP</div>
+            <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">Até o próximo nível</p>
+            
+            <div className="pt-2">
+              <p className="text-[9px] text-secondary font-black uppercase tracking-widest mb-3">Estudantes Recentes</p>
+              <div className="flex justify-center -space-x-3">
+                {recentUsers.map((u, i) => (
+                  <div key={i} className="w-10 h-10 rounded-full border-4 border-white bg-slate-100 shadow-lg overflow-hidden group relative">
+                    <img src={u.avatar} alt={u.name} referrerPolicy="no-referrer" />
+                    <div className="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                       <span className="text-[8px] text-white font-black">{u.name.split(' ')[0]}</span>
+                    </div>
+                  </div>
+                ))}
+                <div className="w-10 h-10 rounded-full border-4 border-white bg-secondary flex items-center justify-center shadow-lg text-white text-[9px] font-black">
+                  +15k
+                </div>
+              </div>
+            </div>
+            <p className="text-[10px] text-slate-400 mt-2 font-medium italic">"Junte-se a 15.742 estudantes esta semana"</p>
+          </div>
+        </div>
+      </section>
 
     <section className="space-y-4">
       <div className="flex justify-between items-end">
@@ -994,35 +1109,65 @@ const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Scr
     </section>
 
     <section className="space-y-4">
-      <h3 className="text-2xl text-primary">Recomendado</h3>
+      <h3 className="text-2xl text-primary font-display font-bold">Recomendado para Você</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <RecommendationCard 
-          image="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=600&auto=format&fit=crop"
-          subject="Direito Civil"
-          title="Responsabilidade Civil e Danos"
-          duration="25 min"
+          image="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=600&auto=format&fit=crop"
+          subject="Processual Civil"
+          title="Teoria Geral dos Recursos"
+          duration="22 min"
           onClick={() => {
-            localStorage.setItem('selectedSubject', 'civil');
+            localStorage.setItem('selectedSubject', 'proc_civil');
             onNavigate('quiz');
           }}
         />
         <RecommendationCard 
-          image="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
-          subject="Direito Penal"
-          title="Tipicidade e Ilicitude"
-          duration="18 min"
+          image="https://images.unsplash.com/photo-1453941403244-67253457053e?q=80&w=400&auto=format&fit=crop"
+          subject="Processual Penal"
+          title="Liberdade e Prisão Preventiva"
+          duration="20 min"
           onClick={() => {
-            localStorage.setItem('selectedSubject', 'penal');
+            localStorage.setItem('selectedSubject', 'proc_penal');
             onNavigate('quiz');
           }}
         />
          <RecommendationCard 
-          image="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=400&auto=format&fit=crop"
-          subject="Direito Adm"
-          title="Atos e Processos Administrativos"
-          duration="35 min"
+          image="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop"
+          subject="Direitos Humanos"
+          title="Pacto de San José da Costa Rica"
+          duration="15 min"
           onClick={() => {
-            localStorage.setItem('selectedSubject', 'adm');
+            localStorage.setItem('selectedSubject', 'direitos_humanos');
+            onNavigate('quiz');
+          }}
+        />
+        <RecommendationCard 
+          image="https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=400&auto=format&fit=crop"
+          subject="Int. Privado"
+          title="Conflito de Leis no Espaço"
+          duration="28 min"
+          onClick={() => {
+            localStorage.setItem('selectedSubject', 'int_privado');
+            onNavigate('quiz');
+          }}
+        />
+        <RecommendationCard 
+          image="https://images.unsplash.com/photo-1554224155-1697467276d4?q=80&w=400&auto=format&fit=crop"
+          subject="Previdenciário"
+          title="Regras de Aposentadoria 2024"
+          duration="30 min"
+          onClick={() => {
+            localStorage.setItem('selectedSubject', 'previdencia');
+            onNavigate('quiz');
+          }}
+        />
+        <RecommendationCard 
+          image="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=400&auto=format&fit=crop"
+          subject="Hermenêutica"
+          title="Métodos de Interpretação"
+          duration="12 min"
+          onClick={() => {
+            localStorage.setItem('selectedSubject', 'hermeneutica');
             onNavigate('quiz');
           }}
         />
@@ -1034,8 +1179,8 @@ const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Scr
         <h3 className="text-2xl text-primary font-display font-bold">Doutrinas</h3>
         <button onClick={() => onNavigate('explore')} className="text-xs font-black text-secondary uppercase tracking-widest hover:text-primary transition-colors">Ver Todas</button>
       </div>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {SUBJECTS.slice(0, 4).map(sub => (
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        {SUBJECTS.filter(s => ['proc_civil', 'proc_penal', 'direitos_humanos', 'int_publico', 'previdencia', 'eleitoral'].includes(s.id)).map(sub => (
           <SubjectSummary 
             key={sub.id}
             icon={sub.icon}
@@ -1053,6 +1198,7 @@ const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Scr
     </section>
   </motion.div>
 );
+};
 
 const RecommendationCard = ({ image, subject, title, duration, onClick }: { image: string, subject: string, title: string, duration: string, onClick?: () => void }) => (
   <div 
