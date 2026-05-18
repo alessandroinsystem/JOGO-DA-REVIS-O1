@@ -47,7 +47,7 @@ import { motion, AnimatePresence } from 'motion/react';
 
 // --- Types ---
 
-type Screen = 'home' | 'explore' | 'quiz' | 'results' | 'profile' | 'reminders' | 'auth' | 'edit-profile';
+type Screen = 'home' | 'explore' | 'quiz' | 'results' | 'profile' | 'reminders' | 'auth' | 'edit-profile' | 'vademecum';
 
 interface Subject {
   id: string;
@@ -80,6 +80,7 @@ const SUBJECTS: Subject[] = [
   { id: 'ambiental', name: 'Direito Ambiental', description: 'Proteção ao meio ambiente e sustentabilidade.', quizzes: 45, level: 'Intermediate', icon: <Scale className="w-8 h-8" />, color: 'bg-green-50 text-green-900' },
   { id: 'eleitoral', name: 'Direito Eleitoral', description: 'Sistemas eleitorais e partidos políticos.', quizzes: 38, level: 'Intermediate', icon: <FileText className="w-8 h-8" />, color: 'bg-slate-100 text-slate-900' },
   { id: 'consumidor', name: 'Direito do Consumidor', description: 'Relações de consumo e proteção ao cliente.', quizzes: 82, level: 'Beginner', icon: <BookOpen className="w-8 h-8" />, color: 'bg-orange-50 text-orange-900' },
+  { id: 'vademecum', name: 'Vade Mecum', description: 'Consulta rápida às principais leis e códigos.', quizzes: 0, level: 'Beginner', icon: <Gavel className="w-8 h-8" />, color: 'bg-stone-100 text-stone-900' },
 ];
 
 const LAW_QUESTIONS: Record<string, any[]> = {
@@ -128,6 +129,24 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       options: ["Saúde, educação e lazer", "Saúde, previdência e assistência social", "Educação, trabalho e moradia", "Previdência, segurança e transporte"],
       correct: 1,
       image: "https://images.unsplash.com/photo-1576091160550-217359f4886b?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 6,
+      subject: "Direito Constitucional",
+      topic: "Controle de Constitucionalidade",
+      question: "Qual o instrumento utilizado para questionar a constitucionalidade de lei municipal em face da Constituição Federal perante o STF?",
+      options: ["ADI", "ADC", "ADPF", "Mandado de Injunção"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+       id: 7,
+       subject: "Direito Constitucional",
+       topic: "Poder Executivo",
+       question: "O Vice-Presidente da República substituirá o Presidente no caso de impedimento e suceder-lhe-á no de vacância. Se ambos estiverem impedidos, qual a ordem sucessória correta?",
+       options: ["Presidente da Câmara, Presidente do Senado, Presidente do STF", "Presidente do Senado, Presidente da Câmara, Presidente do STF", "Presidente do STF, Presidente do Senado, Presidente da Câmara", "Ministro da Justiça, Presidente do Congresso"],
+       correct: 0,
+       image: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=400&auto=format&fit=crop"
     }
   ],
   civil: [
@@ -171,10 +190,28 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       id: 5,
       subject: "Direito Civil",
       topic: "Sucessões",
-      question: "A legítima dos herdeiros necessários corresponde a qual fração da herança?",
+      question: "A legítima dos herdeiros necessários corresponde a qual fraction da herança?",
       options: ["Um terço", "Metade", "Dois terços", "Totalidade"],
       correct: 1,
       image: "https://images.unsplash.com/photo-1518112391135-e875c7dd8459?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 6,
+      subject: "Direito Civil",
+      topic: "Empresa",
+      question: "O prazo para o consumidor reclamar de vícios aparentes em produtos duráveis é de:",
+      options: ["30 dias", "60 dias", "90 dias", "5 dias"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1556742049-l1256e33997c?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 7,
+      subject: "Direito Civil",
+      topic: "Personalidade",
+      question: "A existência da pessoa natural termina com a:",
+      options: ["Morte", "Sentença de interdição", "Nascimento com vida", "Emancipação"],
+      correct: 0,
+      image: "https://images.unsplash.com/photo-1505664194762-85b1758c5f40?q=80&w=400&auto=format&fit=crop"
     }
   ],
   penal: [
@@ -222,6 +259,24 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       options: ["Corrupção Passiva", "Concussão", "Prevaricação", "Peculato"],
       correct: 1,
       image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 6,
+      subject: "Direito Penal",
+      topic: "Prescrição",
+      question: "A prescrição, antes de transitar em julgado a sentença final, salvo o disposto no § 1º do art. 110 do CP, regula-se pelo máximo da pena privativa de liberdade cominada ao crime, verificando-se em vinte anos, se o máximo da pena é superior a:",
+      options: ["8 anos", "10 anos", "12 anos", "15 anos"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 7,
+      subject: "Direito Penal",
+      topic: "Dolo",
+      question: "Diz-se o crime doloso, quando o agente quis o resultado ou:",
+      options: ["Agiu com imprudência", "Assumiu o risco de produzi-lo", "Foi negligente", "Cometeu erro de proibição"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1507567784013-138350616149?q=80&w=400&auto=format&fit=crop"
     }
   ],
   adm: [
@@ -268,6 +323,24 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       question: "O prazo de validade do concurso público será de até quanto tempo, prorrogável uma vez por igual período?",
       options: ["1 ano", "2 anos", "3 anos", "4 anos"],
       correct: 1,
+      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 6,
+      subject: "Direito Administrativo",
+      topic: "Desapropriação",
+      question: "A desapropriação por necessidade ou utilidade pública, ou por interesse social, dar-se-á mediante justa e prévia indenização em:",
+      options: ["Dinheiro", "Títulos da dívida pública", "Imóveis permutados", "Ações de empresas estatais"],
+      correct: 0,
+      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 7,
+      subject: "Direito Administrativo",
+      topic: "Agentes Públicos",
+      question: "A investidura em cargo ou emprego público depende de aprovação prévia em concurso público, ressalvadas as nomeações para cargo em comissão, que são de:",
+      options: ["Livre nomeação e livre exoneração", "Mandato de 4 anos", "Exclusividade de servidores de carreira", "Vitalícios"],
+      correct: 0,
       image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=400&auto=format&fit=crop"
     }
   ],
@@ -316,6 +389,171 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       options: ["3 meses", "4 meses", "5 meses", "6 meses"],
       correct: 2,
       image: "https://images.unsplash.com/photo-1518112391135-e875c7dd8459?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 6,
+      subject: "Direito do Trabalho",
+      topic: "Aviso Prévio",
+      question: "O aviso prévio proporcional ao tempo de serviço é de no mínimo 30 dias, acrescidos de quantos dias por ano de serviço prestado na mesma empresa?",
+      options: ["2 dias", "3 dias", "5 dias", "1 dia"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 7,
+      subject: "Direito do Trabalho",
+      topic: "Adicionais",
+      question: "O adicional de periculosidade, pago a quem trabalha em contato com inflamáveis ou explosivos, é de quanto sobre o salário-base?",
+      options: ["10%", "20%", "30%", "40%"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  tributario: [
+    {
+      id: 1,
+      subject: "Direito Tributário",
+      topic: "Sistema Tributário",
+      question: "Qual tributo tem como fato gerador a prestação de um serviço público específico e divisível?",
+      options: ["Imposto", "Taxa", "Contribuição de Melhoria", "Empréstimo Compulsório"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1554224155-1697467276d4?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      subject: "Direito Tributário",
+      topic: "IPI",
+      question: "O Imposto sobre Produtos Industrializados (IPI) é regido pelo princípio da:",
+      options: ["Seletividade", "Cumulatividade", "Anterioridade Nonahesimal apenas", "Irretroatividade apenas"],
+      correct: 0,
+      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      subject: "Direito Tributário",
+      topic: "Competência",
+      question: "A competência para instituir o ITCMD (Imposto sobre Transmissão Causa Mortis e Doação) pertence aos:",
+      options: ["Municípios", "Distrito Federal apenas", "Estados e Distrito Federal", "União"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+       id: 4,
+       subject: "Direito Tributário",
+       topic: "Lançamento",
+       question: "O lançamento tributário que ocorre sem qualquer colaboração do sujeito passivo é o lançamento:",
+       options: ["Por homologação", "Por declaração", "De ofício", "Misto"],
+       correct: 2,
+       image: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 5,
+      subject: "Direito Tributário",
+      topic: "Crédito Tributário",
+      question: "Suspendem a exigibilidade do crédito tributário, EXCETO:",
+      options: ["Moratória", "Depósito do montante integral", "Parcelamento", "Pagamento"],
+      correct: 3,
+      image: "https://images.unsplash.com/photo-1554224155-1697467276d4?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  etica: [
+    {
+      id: 1,
+      subject: "Ética Profissional",
+      topic: "Deveres",
+      question: "O sigilo profissional do advogado é:",
+      options: ["Relativo", "Inviolável, salvo ordem judicial", "Inviolável, com exceções de grave risco à vida ou honra", "Opcional"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      subject: "Ética Profissional",
+      topic: "Impedimentos",
+      question: "São impedidos de exercer a advocacia os ocupantes de cargos ou funções que tenham competência de:",
+      options: ["Lançamento de tributos", "Expedição de alvarás", "Julgamento em tribunais administrativos", "Todas as anteriores"],
+      correct: 3,
+      image: "https://images.unsplash.com/photo-1453941403244-67253457053e?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  empresarial: [
+    {
+      id: 1,
+      subject: "Direito Empresarial",
+      topic: "Sociedades",
+      question: "Na sociedade limitada, a responsabilidade de cada sócio é restringida ao valor de suas quotas, mas todos respondem solidariamente pela:",
+      options: ["Gestão da empresa", "Integralização do capital social", "Dívidas trabalhistas apenas", "Prejuízos fiscais"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      subject: "Direito Empresarial",
+      topic: "Títulos de Crédito",
+      question: "A declaração cambial pela qual o sacado concorda em pagar a letra de câmbio é o:",
+      options: ["Endosso", "Aval", "Aceite", "Quitação"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      subject: "Direito Empresarial",
+      topic: "Falência",
+      question: "Na classificação dos créditos na falência, os créditos trabalhistas limitados a 150 salários mínimos são considerados:",
+      options: ["Extraconcursais", "Privilegiados gerais", "Privilegiados especiais", "Quirografários"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  ambiental: [
+    {
+      id: 1,
+      subject: "Direito Ambiental",
+      topic: "Princípios",
+      question: "O princípio que obriga o poluidor a arcar com os custos da prevenção e reparação de danos é o:",
+      options: ["Princípio da Prevenção", "Princípio do Poluidor-Pagador", "Princípio da Precaução", "Princípio do Usuário-Recebedor"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1501854140801-50d01674aa3e?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  eleitoral: [
+    {
+      id: 1,
+      subject: "Direito Eleitoral",
+      topic: "Capacidade Eleitoral",
+      question: "O alistamento eleitoral e o voto são facultativos para:",
+      options: ["Analfabetos", "Maiores de 70 anos", "Jovens entre 16 e 18 anos", "Todas as anteriores"],
+      correct: 3,
+      image: "https://images.unsplash.com/photo-1540910419892-4a39d2c3294c?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      subject: "Direito Eleitoral",
+      topic: "Elegibilidade",
+      question: "São condições de elegibilidade para o cargo de Senador, entre outras, a idade mínima de:",
+      options: ["21 anos", "30 anos", "35 anos", "18 anos"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=400&auto=format&fit=crop"
+    }
+  ],
+  consumidor: [
+    {
+      id: 1,
+      subject: "Direito do Consumidor",
+      topic: "Prazo de Arrependimento",
+      question: "Nas compras fora do estabelecimento comercial (ex: internet), qual o prazo para o consumidor exercer o direito de arrependimento?",
+      options: ["24 horas", "3 dias", "7 dias", "15 dias"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1556742049-l1256e33997c?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      subject: "Direito do Consumidor",
+      topic: "Responsabilidade",
+      question: "No Código de Defesa do Consumidor, a responsabilidade do fornecedor de serviços por defeitos na prestação é, via de regra:",
+      options: ["Subjetiva", "Objetiva", "Exclusiva do preposto", "Inexistente"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
     }
   ]
 };
@@ -351,6 +589,10 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
                 alt="User" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=100&auto=format&fit=crop";
+                }}
               />
             </div>
           )}
@@ -398,6 +640,12 @@ const BottomNav = ({ active, onChange }: { active: Screen, onChange: (s: Screen)
         onClick={() => onChange('explore')} 
       />
       <NavItem 
+        icon={<BookOpen className="w-6 h-6" />} 
+        label="Leis" 
+        active={active === 'vademecum'} 
+        onClick={() => onChange('vademecum')} 
+      />
+      <NavItem 
         icon={<User className="w-6 h-6" />} 
         label="Perfil" 
         active={active === 'profile' || active === 'edit-profile' || active === 'reminders'} 
@@ -427,6 +675,12 @@ const Sidebar = ({ active, onChange, user }: { active: Screen, onChange: (s: Scr
         label="Agenda" 
         active={active === 'reminders'} 
         onClick={() => onChange('reminders')} 
+      />
+      <SidebarItem 
+        icon={<Gavel className="w-5 h-5" />} 
+        label="Vade Mecum" 
+        active={active === 'vademecum'} 
+        onClick={() => onChange('vademecum')} 
       />
       <SidebarItem 
         icon={<User className="w-5 h-5" />} 
@@ -560,6 +814,10 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         alt="Direito Constitucional"
         referrerPolicy="no-referrer"
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.src = "https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=600&auto=format&fit=crop";
+        }}
       />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent p-6 flex flex-col justify-end">
           <div className="space-y-1">
@@ -577,6 +835,26 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
              </button>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section className="bg-gradient-to-br from-stone-50 to-stone-100 dark:from-stone-900 dark:to-stone-950 p-8 rounded-[2.5rem] border border-stone-200 dark:border-stone-800 shadow-xl shadow-stone-200/50 dark:shadow-none flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group">
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(197,160,89,0.05),transparent)] pointer-events-none" />
+      <div className="w-24 h-24 md:w-32 md:h-32 bg-stone-200 dark:bg-stone-800 rounded-[2rem] flex items-center justify-center text-stone-600 dark:text-stone-300 shadow-inner group-hover:rotate-3 transition-transform flex-shrink-0">
+        <Gavel className="w-12 h-12 md:w-16 md:h-16" />
+      </div>
+      <div className="flex-1 text-center md:text-left space-y-4">
+        <div>
+          <span className="text-[10px] font-black text-stone-400 dark:text-stone-500 uppercase tracking-[0.2em] mb-1 block">BIBLIOTECA JURÍDICA</span>
+          <h3 className="text-2xl font-display font-bold text-primary">Vade Mecum Digital</h3>
+          <p className="text-slate-500 text-sm mt-1 max-w-md italic">"A lei é a inteligência pública." — Acesse todos os códigos e leis sem carregar peso.</p>
+        </div>
+        <button 
+          onClick={() => onNavigate('vademecum')}
+          className="bg-primary text-white px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-secondary hover:text-white transition-all flex items-center justify-center md:justify-start gap-3 active:scale-95"
+        >
+          Abrir Vade Mecum <BookOpen className="w-4 h-4" />
+        </button>
       </div>
     </section>
 
@@ -652,6 +930,10 @@ const RecommendationCard = ({ image, subject, title, duration, onClick }: { imag
         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" 
         alt={title}
         referrerPolicy="no-referrer" 
+        onError={(e) => {
+          const target = e.target as HTMLImageElement;
+          target.src = "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop";
+        }}
       />
       <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
         <Play className="w-8 h-8 text-white fill-white" />
@@ -845,6 +1127,10 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
             alt="Justiça"
             className="w-full h-full object-cover transition-transform duration-[10s] group-hover:scale-110"
             referrerPolicy="no-referrer"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=800&auto=format&fit=crop";
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent p-6 flex flex-col justify-end">
             <span className="bg-amber-400 text-primary text-[10px] font-bold px-3 py-1 rounded-full w-fit mb-2">JURISPRUDÊNCIA</span>
@@ -853,6 +1139,77 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
           </div>
         </div>
       </section>
+    </motion.div>
+  );
+};
+
+const VademecumScreen = () => {
+  const laws = [
+    { title: "Constituição Federal", year: "1988", excerpt: "Nós, representantes do povo brasileiro, reunidos em Assembleia Nacional Constituinte...", link: "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" },
+    { title: "Código Civil", year: "2002", excerpt: "Art. 1º Toda pessoa é capaz de direitos e deveres na ordem civil.", link: "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm" },
+    { title: "Código Penal", year: "1940", excerpt: "Art. 1º - Não há crime sem lei anterior que o defina. Não há pena sem prévia cominação legal.", link: "https://www.planalto.gov.br/ccivil_03/decreto-lei/del2848compilado.htm" },
+    { title: "CLT", year: "1943", excerpt: "Art. 1º Esta Consolidação estatui as normas que regulam as relações individuais e coletivas de trabalho...", link: "https://www.planalto.gov.br/ccivil_03/decreto-lei/del5452.htm" },
+    { title: "Código de Defesa do Consumidor", year: "1990", excerpt: "Art. 1° O presente código estabelece normas de proteção e defesa do consumidor...", link: "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm" },
+    { title: "Estatuto da OAB", year: "1994", excerpt: "Art. 1º São atividades privativas de advocacia: I - a postulação a qualquer órgão do Poder Judiciário...", link: "https://www.planalto.gov.br/ccivil_03/leis/l8906.htm" },
+    { title: "Código de Processo Civil", year: "2015", excerpt: "Art. 1º O processo civil será ordenado, disciplinado e interpretado conforme os valores e os princípios fundamentais estabelecidos na Constituição...", link: "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13105.htm" },
+    { title: "Código de Processo Penal", year: "1941", excerpt: "Art. 1º O processo penal reger-se-á, em todo o território brasileiro, por este Código...", link: "https://www.planalto.gov.br/ccivil_03/decreto-lei/del3689compilado.htm" },
+  ];
+
+  const [search, setSearch] = useState('');
+  const filteredLaws = laws.filter(l => l.title.toLowerCase().includes(search.toLowerCase()));
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      className="space-y-6 pb-10"
+    >
+      <section>
+        <h1 className="text-3xl font-display font-bold text-primary">Vade Mecum Digital</h1>
+        <p className="text-slate-500 text-sm">Consulte as principais leis brasileiras atualizadas em tempo real.</p>
+      </section>
+
+      <div className="relative group">
+        <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-secondary transition-colors" />
+        <input 
+          type="text" 
+          placeholder="Pesquisar lei, código ou estatuto..." 
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="w-full bg-card-bg border-2 border-secondary/10 rounded-[2rem] py-5 pl-14 pr-6 outline-none focus:border-secondary transition-all font-sans shadow-xl shadow-primary/5 text-primary placeholder:text-slate-300 font-medium"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {filteredLaws.map((law, idx) => (
+          <motion.div 
+            key={idx}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: idx * 0.05 }}
+            className="bg-card-bg p-6 rounded-[2.5rem] border border-secondary/10 shadow-lg shadow-primary/5 hover:shadow-primary/10 transition-all group flex flex-col justify-between"
+          >
+            <div className="space-y-3">
+              <div className="flex justify-between items-start">
+                <div className="p-3 bg-secondary/10 rounded-2xl text-secondary">
+                  <Gavel className="w-6 h-6" />
+                </div>
+                <span className="text-[10px] font-black text-secondary/60 bg-secondary/5 px-2 py-1 rounded-lg uppercase tracking-widest">{law.year}</span>
+              </div>
+              <h3 className="font-display font-bold text-xl text-primary leading-tight">{law.title}</h3>
+              <p className="text-slate-500 text-xs italic line-clamp-3 leading-relaxed">"{law.excerpt}"</p>
+            </div>
+            <a 
+              href={law.link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="mt-6 w-full py-4 bg-primary/5 text-primary font-bold text-xs uppercase tracking-widest rounded-2xl hover:bg-secondary hover:text-white transition-all flex items-center justify-center gap-2 group/btn active:scale-95 shadow-inner"
+            >
+              Consultar Texto Integral <FileText className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
+            </a>
+          </motion.div>
+        ))}
+      </div>
     </motion.div>
   );
 };
@@ -911,12 +1268,16 @@ const QuizScreen = ({ questions, onComplete }: { questions: any[], onComplete: (
             </h1>
           </div>
           
-          <div className="rounded-2xl overflow-hidden border border-card-border shadow-sm bg-card-bg transition-colors">
+          <div className="rounded-2xl overflow-hidden border border-card-border shadow-sm bg-card-bg transition-colors relative min-h-[192px] flex items-center justify-center">
             <img 
-              src={question.image} 
+              src={question.image || "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop"} 
               className="w-full h-48 object-cover opacity-90 dark:opacity-75"
               alt="Contexto Jurídico"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=800&auto=format&fit=crop";
+              }}
             />
           </div>
         </section>
@@ -1677,12 +2038,14 @@ export default function App() {
           onToggle={toggleReminder}
         />
       );
+      case 'vademecum': return <VademecumScreen />;
       default: return <HomeScreen onNavigate={setScreen} user={session?.user || null} />;
     }
   };
 
   const getTitle = () => {
     if (screen === 'auth') return "Vade Mecum Digital";
+    if (screen === 'vademecum') return "Vade Mecum Digital";
     if (screen === 'quiz') {
       const subId = localStorage.getItem('selectedSubject') || 'const';
       const subName = SUBJECTS.find(s => s.id === subId)?.name || "Simulado";
