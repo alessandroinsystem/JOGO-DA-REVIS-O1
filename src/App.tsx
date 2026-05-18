@@ -41,13 +41,15 @@ import {
   FileText,
   Briefcase,
   ShieldCheck,
-  RefreshCw
+  RefreshCw,
+  FileDown,
+  Download
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 // --- Types ---
 
-type Screen = 'home' | 'explore' | 'quiz' | 'results' | 'profile' | 'reminders' | 'auth' | 'edit-profile' | 'vademecum';
+type Screen = 'home' | 'explore' | 'quiz' | 'results' | 'profile' | 'reminders' | 'auth' | 'edit-profile' | 'vademecum' | 'ultima-prova';
 
 interface Subject {
   id: string;
@@ -454,6 +456,24 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       options: ["Moratória", "Depósito do montante integral", "Parcelamento", "Pagamento"],
       correct: 3,
       image: "https://images.unsplash.com/photo-1554224155-1697467276d4?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 6,
+      subject: "Direito Tributário",
+      topic: "Imunidade",
+      question: "Instituições de educação e de assistência social, sem fins lucrativos, gozam de imunidade tributária relativa a quais impostos?",
+      options: ["IPVA", "IPTU e IR sobre seu patrimônio, renda ou serviços", "Apenas Imposto de Renda", "Todos os impostos nacionais"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 7,
+      subject: "Direito Tributário",
+      topic: "Princípios",
+      question: "O princípio que veda a cobrança de tributo no mesmo exercício financeiro em que haja sido publicada a lei que os instituiu ou aumentou é o da:",
+      options: ["Capacidade contributiva", "Legalidade", "Anterioridade", "Irretroatividade"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1554224155-1697467276d4?q=80&w=400&auto=format&fit=crop"
     }
   ],
   etica: [
@@ -474,6 +494,33 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       options: ["Lançamento de tributos", "Expedição de alvarás", "Julgamento em tribunais administrativos", "Todas as anteriores"],
       correct: 3,
       image: "https://images.unsplash.com/photo-1453941403244-67253457053e?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      subject: "Ética Profissional",
+      topic: "Advocacia Pública",
+      question: "Os integrantes do Ministério Público e da Magistratura podem exercer a advocacia?",
+      options: ["Sim, desde que licenciados", "Não, é atividade incompatível", "Sim, apenas pro bono", "Apenas após 5 anos de carreira"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1589829500361-90407746522c?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 4,
+      subject: "Ética Profissional",
+      topic: "Honorários",
+      question: "Na falta de estipulação ou de acordo, os honorários são fixados por:",
+      options: ["OAB", "Juiz, por arbitramento judicial", "Ministério Público", "Vontade exclusiva do advogado"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 5,
+      subject: "Ética Profissional",
+      topic: "Publicidade",
+      question: "A publicidade profissional do advogado tem caráter meramente informativo e deve primar pela:",
+      options: ["Ostentação", "Captação de clientela", "Moderação e discrição", "Divulgação de preços"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1555543962-a2267746522c?q=80&w=400&auto=format&fit=crop"
     }
   ],
   empresarial: [
@@ -503,6 +550,24 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       options: ["Extraconcursais", "Privilegiados gerais", "Privilegiados especiais", "Quirografários"],
       correct: 1,
       image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 4,
+      subject: "Direito Empresarial",
+      topic: "Estabelecimento",
+      question: "O contrato que tem por objeto a alienação, o usufruto ou arrendamento do estabelecimento denomina-se:",
+      options: ["Cessão de cotas", "Trespasse", "Franquia", "Comodato"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 5,
+      subject: "Direito Empresarial",
+      topic: "Propriedade Industrial",
+      question: "A patente de invenção vigorará pelo prazo de quantos anos a contar da data de depósito?",
+      options: ["10 anos", "15 anos", "20 anos", "25 anos"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1589829500361-90407746522c?q=80&w=400&auto=format&fit=crop"
     }
   ],
   ambiental: [
@@ -514,6 +579,33 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       options: ["Princípio da Prevenção", "Princípio do Poluidor-Pagador", "Princípio da Precaução", "Princípio do Usuário-Recebedor"],
       correct: 1,
       image: "https://images.unsplash.com/photo-1501854140801-50d01674aa3e?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 2,
+      subject: "Direito Ambiental",
+      topic: "Licenciamento",
+      question: "Quais são as três etapas sequenciais do licenciamento ambiental comum?",
+      options: ["LP, LI e LO", "LA, LB e LC", "Prévia, Instalação e Reforma", "Avaliação, Autorização e Fiscalização"],
+      correct: 0,
+      image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      subject: "Direito Ambiental",
+      topic: "Responsabilidade",
+      question: "A responsabilidade civil por danos ambientais é, via de regra:",
+      options: ["Subjetiva", "Objetiva", "Inexistente", "Exclusiva do Estado"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1518173946687-a4c8a9b746f5?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 4,
+      subject: "Direito Ambiental",
+      topic: "Constituição",
+      question: "Todos têm direito ao meio ambiente ecologicamente equilibrado, bem de uso comum do povo e essencial à sadia qualidade de vida. Este princípio está em qual artigo da CF?",
+      options: ["Art. 5º", "Art. 170", "Art. 225", "Art. 231"],
+      correct: 2,
+      image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=400&auto=format&fit=crop"
     }
   ],
   eleitoral: [
@@ -534,6 +626,24 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       options: ["21 anos", "30 anos", "35 anos", "18 anos"],
       correct: 2,
       image: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      subject: "Direito Eleitoral",
+      topic: "Sistemas",
+      question: "O sistema eleitoral utilizado para a eleição de Deputados Federais, Estaduais e Vereadores é o:",
+      options: ["Majoritário", "Proporcional", "Distrital Puro", "Misto"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1540910419892-4a39d2c3294c?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 4,
+      subject: "Direito Eleitoral",
+      topic: "Domicílio",
+      question: "Qual o prazo mínimo de domicílio eleitoral na circunscrição para ser candidato?",
+      options: ["3 meses", "6 meses", "1 ano", "2 anos"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
     }
   ],
   consumidor: [
@@ -554,6 +664,24 @@ const LAW_QUESTIONS: Record<string, any[]> = {
       options: ["Subjetiva", "Objetiva", "Exclusiva do preposto", "Inexistente"],
       correct: 1,
       image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 3,
+      subject: "Direito do Consumidor",
+      topic: "Publicidade Enganosa",
+      question: "A publicidade que induz o consumidor a se comportar de forma prejudicial ou perigosa à sua saúde ou segurança é considerada:",
+      options: ["Publicidade abusiva", "Publicidade enganosa", "Publicidade simulada", "Publicidade comparativa"],
+      correct: 0,
+      image: "https://images.unsplash.com/photo-1556742049-l1256e33997c?q=80&w=400&auto=format&fit=crop"
+    },
+    {
+      id: 4,
+      subject: "Direito do Consumidor",
+      topic: "Inversão do Ônus",
+      question: "A inversão do ônus da prova no CDC fica a critério do juiz quando for:",
+      options: ["Consumidor idoso", "Verossímil a alegação ou o consumidor for hipossuficiente", "Sempre que houver ação judicial", "Apenas em causas superiores a 40 salários"],
+      correct: 1,
+      image: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=400&auto=format&fit=crop"
     }
   ]
 };
@@ -607,11 +735,6 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
       </div>
       
       <div className="flex items-center gap-3">
-        <div className="hidden md:flex items-center gap-4 mr-4">
-          <button onClick={() => onNavigate?.('home')} className="text-sm font-bold text-primary hover:text-secondary transition-colors">Início</button>
-          <button onClick={() => onNavigate?.('explore')} className="text-sm font-bold text-primary hover:text-secondary transition-colors">Explorar</button>
-          <button onClick={() => onNavigate?.('profile')} className="text-sm font-bold text-primary hover:text-secondary transition-colors">Perfil</button>
-        </div>
         <button 
           onClick={onToggleTheme}
           className="p-3 rounded-full bg-card-bg shadow-md text-secondary hover:bg-secondary/5 transition-all active:scale-90 border border-primary/10"
@@ -644,6 +767,12 @@ const BottomNav = ({ active, onChange }: { active: Screen, onChange: (s: Screen)
         label="Leis" 
         active={active === 'vademecum'} 
         onClick={() => onChange('vademecum')} 
+      />
+      <NavItem 
+        icon={<FileText className="w-6 h-6" />} 
+        label="Prova" 
+        active={active === 'ultima-prova'} 
+        onClick={() => onChange('ultima-prova')} 
       />
       <NavItem 
         icon={<User className="w-6 h-6" />} 
@@ -681,6 +810,12 @@ const Sidebar = ({ active, onChange, user }: { active: Screen, onChange: (s: Scr
         label="Vade Mecum" 
         active={active === 'vademecum'} 
         onClick={() => onChange('vademecum')} 
+      />
+      <SidebarItem 
+        icon={<FileText className="w-5 h-5" />} 
+        label="Última Prova" 
+        active={active === 'ultima-prova'} 
+        onClick={() => onChange('ultima-prova')} 
       />
       <SidebarItem 
         icon={<User className="w-5 h-5" />} 
@@ -733,7 +868,7 @@ const NavItem = ({ icon, label, active, onClick }: { icon: React.ReactNode, labe
 
 // --- Pages ---
 
-const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, user: SupabaseUser | null }) => (
+const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Screen) => void, user: SupabaseUser | null, simulations?: number }) => (
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -752,13 +887,13 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
       <div className="space-y-6 flex flex-col justify-center">
         <div className="flex justify-between items-center relative z-10">
           <h3 className="font-lexend font-extrabold text-[10px] text-primary uppercase tracking-[0.2em]">Metas da OAB</h3>
-          <span className="text-[10px] font-black text-secondary bg-secondary/10 px-3 py-1.5 rounded-xl">75% Concluído</span>
+          <span className="text-[10px] font-black text-secondary bg-secondary/10 px-3 py-1.5 rounded-xl">{simulations > 0 ? (simulations * 10).toString().substring(0, 2) : '0'}% Concluído</span>
         </div>
 
         <div className="h-3 w-full bg-slate-100/50 rounded-full overflow-hidden relative z-10 border border-white">
           <motion.div 
             initial={{ width: 0 }}
-            animate={{ width: '75%' }}
+            animate={{ width: simulations > 0 ? `${Math.min(simulations * 10, 100)}%` : '0%' }}
             className="h-full bg-gradient-to-r from-secondary via-secondary/80 to-secondary rounded-full shadow-[0_0_15px_rgba(197,160,89,0.3)]"
           />
         </div>
@@ -768,13 +903,13 @@ const HomeScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, use
             <div className="p-2 bg-secondary/10 rounded-xl">
               <CircleCheck className="w-4 h-4 text-secondary" />
             </div>
-            <span className="text-[11px] font-black text-primary uppercase tracking-tighter">3 Simulados</span>
+            <span className="text-[11px] font-black text-primary uppercase tracking-tighter">{simulations} Simulados</span>
           </div>
           <div className="flex items-center gap-3 bg-card-bg/50 p-2 pr-4 rounded-2xl border border-white/50">
             <div className="p-2 bg-primary/5 rounded-xl">
               <FileText className="w-4 h-4 text-primary" />
             </div>
-            <span className="text-[11px] font-black text-primary uppercase tracking-tighter">15 Súmulas</span>
+            <span className="text-[11px] font-black text-primary uppercase tracking-tighter">0 Súmulas</span>
           </div>
         </div>
       </div>
@@ -1139,6 +1274,62 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
           </div>
         </div>
       </section>
+    </motion.div>
+  );
+};
+
+const UltimaProvaScreen = () => {
+  const fileUrl = "https://s.oab.org.br/arquivos/2025/08/fda2cc49-fbbd-4893-9b75-0f61c177cd5d.pdf";
+  
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }} 
+      animate={{ opacity: 1, y: 0 }} 
+      className="space-y-6 pb-10 h-full flex flex-col"
+    >
+      <section>
+        <h1 className="text-3xl font-display font-bold text-primary">Última Prova OAB</h1>
+        <p className="text-slate-500 text-sm">Visualize o caderno de questões oficial do último exame unificado.</p>
+      </section>
+
+      <div className="flex-1 bg-card-bg rounded-[2.5rem] border border-secondary/10 shadow-2xl shadow-primary/5 overflow-hidden flex flex-col min-h-[600px]">
+        <div className="p-4 bg-primary/5 border-b border-primary/5 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-secondary/20 rounded-lg text-secondary">
+              <FileDown className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-bold text-primary uppercase tracking-widest">Documento PDF Oficial</span>
+          </div>
+          <a 
+            href={fileUrl} 
+            download 
+            target="_blank"
+            className="px-4 py-2 bg-secondary text-white rounded-xl text-[10px] font-black uppercase tracking-tighter hover:bg-primary transition-colors flex items-center gap-2"
+          >
+            Baixar PDF <Download className="w-3 h-3" />
+          </a>
+        </div>
+        
+        <div className="flex-1 relative">
+          <iframe 
+            src={`https://docs.google.com/viewer?url=${encodeURIComponent(fileUrl)}&embedded=true`}
+            className="w-full h-full border-none"
+            title="Ultima Prova OAB"
+          />
+        </div>
+      </div>
+
+      <div className="bg-amber-50 dark:bg-amber-900/20 p-6 rounded-[2rem] border border-amber-200 dark:border-amber-800/50 flex gap-4 items-start">
+        <div className="p-3 bg-amber-100 dark:bg-amber-800 rounded-2xl text-amber-600 dark:text-amber-400">
+          <TrendingUp className="w-6 h-6" />
+        </div>
+        <div>
+          <h4 className="font-bold text-amber-900 dark:text-amber-200">Dica de Estudo</h4>
+          <p className="text-amber-800/70 dark:text-amber-400/70 text-sm mt-1 leading-relaxed">
+            Resolver a prova mais recente é a melhor forma de entender o padrão atual da banca FGV. Cronometre seu tempo: você tem 5 horas para as 80 questões.
+          </p>
+        </div>
+      </div>
     </motion.div>
   );
 };
@@ -1951,6 +2142,17 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>('home');
   const [reminders, setReminders] = useState<Reminder[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [completedSimulations, setCompletedSimulations] = useState(0);
+
+  useEffect(() => {
+    // Carregar simulados concluídos do localStorage
+    const saved = localStorage.getItem('completedSimulations');
+    if (saved) setCompletedSimulations(parseInt(saved, 10));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('completedSimulations', completedSimulations.toString());
+  }, [completedSimulations]);
 
   useEffect(() => {
     if (!supabase) return;
@@ -2019,13 +2221,21 @@ export default function App() {
 
     switch (screen) {
       case 'auth': return <AuthScreen />;
-      case 'home': return <HomeScreen onNavigate={setScreen} user={session?.user || null} />;
+      case 'home': return <HomeScreen onNavigate={setScreen} user={session?.user || null} simulations={completedSimulations} />;
       case 'explore': return <ExploreScreen onNavigate={setScreen} />;
       case 'quiz': 
         // Recuperar questões da disciplina selecionada (ou padrão se não houver)
         const selectedSubjectId = localStorage.getItem('selectedSubject') || 'const';
         const questions = LAW_QUESTIONS[selectedSubjectId] || LAW_QUESTIONS['const'];
-        return <QuizScreen questions={questions} onComplete={() => setScreen('results')} />;
+        return (
+          <QuizScreen 
+            questions={questions} 
+            onComplete={(score) => {
+              setCompletedSimulations(prev => prev + 1);
+              setScreen('results');
+            }} 
+          />
+        );
       case 'results': return <ResultsScreen onNavigate={setScreen} />;
       case 'profile': return <ProfileScreen onNavigate={setScreen} user={session?.user || null} />;
       case 'edit-profile': return <EditProfileScreen user={session?.user || null} onBack={() => setScreen('profile')} />;
@@ -2039,13 +2249,15 @@ export default function App() {
         />
       );
       case 'vademecum': return <VademecumScreen />;
-      default: return <HomeScreen onNavigate={setScreen} user={session?.user || null} />;
+      case 'ultima-prova': return <UltimaProvaScreen />;
+      default: return <HomeScreen onNavigate={setScreen} user={session?.user || null} simulations={completedSimulations} />;
     }
   };
 
   const getTitle = () => {
     if (screen === 'auth') return "Vade Mecum Digital";
     if (screen === 'vademecum') return "Vade Mecum Digital";
+    if (screen === 'ultima-prova') return "Última Prova OAB";
     if (screen === 'quiz') {
       const subId = localStorage.getItem('selectedSubject') || 'const';
       const subName = SUBJECTS.find(s => s.id === subId)?.name || "Simulado";
