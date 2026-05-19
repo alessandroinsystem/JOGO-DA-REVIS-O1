@@ -973,231 +973,288 @@ const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Scr
     { name: "Ricardo", avatar: "https://i.pravatar.cc/150?u=33" }
   ];
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Bom dia";
+    if (hour < 18) return "Boa tarde";
+    return "Boa noite";
+  };
+
+  const completedPct = simulations > 0 ? Math.min(simulations * 10, 100) : 0;
+
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-8 pb-10"
+      transition={{ duration: 0.4 }}
+      className="space-y-10 pb-16"
     >
-      <section>
-        <h1 className="text-4xl text-primary mb-1 font-display leading-[1.1]">
-          Doutor(a) {user?.user_metadata?.full_name?.split(' ')[0] || 'Alessandro'}
-        </h1>
-        <p className="text-slate-500 text-sm font-medium">Sua disciplina está em 12 dias. Siga firme rumo à excelência.</p>
-      </section>
-
-      <section className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/20 shadow-2xl shadow-primary/5 space-y-6 relative overflow-hidden group md:grid md:grid-cols-2 md:gap-10 md:space-y-0">
-        <div className="absolute top-0 right-0 w-40 h-40 bg-secondary/5 rounded-full -mr-20 -mt-20 blur-3xl transition-transform group-hover:scale-120" />
+      {/* Visual Header Banner */}
+      <div className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-primary via-primary/95 to-slate-950 text-white border border-white/5 p-8 md:p-10 shadow-2xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(197,160,89,0.15),transparent_45%)]" />
+        <div className="absolute -bottom-48 -right-48 w-96 h-96 bg-secondary/10 rounded-full blur-3xl pointer-events-none" />
         
-        <div className="space-y-6 flex flex-col justify-center">
-          <div className="flex justify-between items-center relative z-10">
-            <h3 className="font-lexend font-extrabold text-[10px] text-primary uppercase tracking-[0.2em]">Metas da OAB</h3>
-            <span className="text-[10px] font-black text-secondary bg-secondary/10 px-3 py-1.5 rounded-xl">{simulations > 0 ? (simulations * 10).toString().substring(0, 2) : '0'}% Concluído</span>
-          </div>
-
-          <div className="h-3 w-full bg-slate-100/50 rounded-full overflow-hidden relative z-10 border border-white">
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: simulations > 0 ? `${Math.min(simulations * 10, 100)}%` : '0%' }}
-              className="h-full bg-gradient-to-r from-secondary via-secondary/80 to-secondary rounded-full shadow-[0_0_15px_rgba(197,160,89,0.3)]"
-            />
-          </div>
-
-          <div className="flex flex-wrap gap-4 relative z-10">
-            <div className="flex items-center gap-3 bg-card-bg/50 p-2 pr-4 rounded-2xl border border-white/50">
-              <div className="p-2 bg-secondary/10 rounded-xl">
-                <CircleCheck className="w-4 h-4 text-secondary" />
-              </div>
-              <span className="text-[11px] font-black text-primary uppercase tracking-tighter">{simulations} Simulados</span>
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 bg-secondary/20 border border-secondary/30 rounded-full px-3 py-1 text-secondary text-xs font-bold uppercase tracking-wider">
+              <Trophy className="w-3.5 h-3.5" /> Preparação para aluno de direito
             </div>
-            <div className="flex items-center gap-3 bg-card-bg/50 p-2 pr-4 rounded-2xl border border-white/50">
-              <div className="p-2 bg-primary/20 rounded-xl">
-                <Users className="w-4 h-4 text-primary" />
-              </div>
-              <span className="text-[11px] font-black text-primary uppercase tracking-tighter">15.742 Inscritos</span>
+            <h1 className="text-3xl md:text-5xl font-display font-medium tracking-tight">
+              {getGreeting()}, <span className="text-secondary font-bold">Futuro(a) Advogado(a) {user?.user_metadata?.full_name?.split(' ')[0] || 'Alessandro'}</span>
+            </h1>
+            <p className="text-slate-300 text-sm md:text-base max-w-xl font-medium leading-relaxed">
+              O seu caminho rumo à aprovação exige constância. Você está a apenas <span className="text-white font-bold">12 dias</span> do seu grande objetivo. Continue focado!
+            </p>
+          </div>
+          
+          <div className="bg-white/5 backdrop-blur-md rounded-2xl p-5 border border-white/10 flex items-center gap-4 self-start md:self-auto shadow-xl">
+            <div className="p-3 bg-secondary rounded-xl text-primary font-bold shadow-lg shadow-secondary/20">
+              <Flame className="w-6 h-6 animate-pulse" />
+            </div>
+            <div>
+              <p className="text-[10px] text-slate-300 font-bold uppercase tracking-wider">Série de Estudos</p>
+              <p className="text-xl font-black text-white">12 Dias Ativos</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bento Dashboard Statistics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Metas Card */}
+        <div className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/10 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden group">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">METAS OAB</p>
+              <span className="text-[10px] font-black text-secondary bg-secondary/15 px-3 py-1 rounded-full">{completedPct}% Concluído</span>
+            </div>
+            
+            <h3 className="text-lg font-bold text-primary font-display">Meta Semanal de Simulados</h3>
+            
+            <div className="h-2.5 w-full bg-slate-100/50 dark:bg-slate-800 rounded-full overflow-hidden relative border border-white/20">
+              <motion.div 
+                initial={{ width: 0 }}
+                animate={{ width: `${completedPct}%` }}
+                className="h-full bg-gradient-to-r from-secondary to-secondary/80 rounded-full shadow-[0_0_12px_rgba(197,160,89,0.3)]"
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              />
+            </div>
+          </div>
+
+          <div className="flex gap-4 pt-2">
+            <div className="flex items-center gap-2 bg-primary/5 px-3 py-2 rounded-xl border border-primary/5">
+              <CircleCheck className="w-3.5 h-3.5 text-secondary" />
+              <span className="text-[10px] font-bold text-primary">{simulations}/{Math.max(10, simulations)} Simulados</span>
+            </div>
+            <div className="flex items-center gap-2 bg-primary/5 px-3 py-2 rounded-xl border border-primary/5">
+              <Gavel className="w-3.5 h-3.5 text-primary" />
+              <span className="text-[10px] font-bold text-primary">Peças Práticas</span>
             </div>
           </div>
         </div>
 
-        <div className="hidden md:flex items-center justify-center relative z-10 border-l border-primary/5 pl-10">
-          <div className="text-center space-y-3">
-            <div className="text-4xl font-display font-bold text-primary">1.240 XP</div>
-            <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">Até o próximo nível</p>
+        {/* Experience Points Card */}
+        <div className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/10 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden group">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">PERFORMANCE</p>
+              <span className="flex items-center gap-1 text-[10px] font-black text-green-500 bg-green-500/10 px-2.5 py-1 rounded-full">
+                <TrendingUp className="w-3 h-3" /> Nível 4
+              </span>
+            </div>
             
-            <div className="pt-2">
-              <p className="text-[9px] text-secondary font-black uppercase tracking-widest mb-3">Estudantes Recentes</p>
-              <div className="flex justify-center -space-x-3">
+            <div>
+              <div className="text-3xl font-display font-medium text-primary">1.240 XP</div>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Pontos acumulados esta semana</p>
+            </div>
+          </div>
+
+          <p className="text-xs text-slate-500 italic mt-auto border-t border-primary/5 pt-3">
+            Você está entre os 15% melhores estudantes do país esta semana.
+          </p>
+        </div>
+
+        {/* Community studies group */}
+        <div className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/10 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden group">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">COMUNIDADE</p>
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-black text-secondary bg-secondary/15 px-3 py-1 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary block animate-ping" />
+                AO VIVO
+              </span>
+            </div>
+
+            <div className="space-y-1">
+              <p className="text-xs font-black text-secondary uppercase tracking-widest">Mesa de Estudos</p>
+              <div className="flex -space-x-3 pt-2">
                 {recentUsers.map((u, i) => (
-                  <div key={i} className="w-10 h-10 rounded-full border-4 border-white bg-slate-100 shadow-lg overflow-hidden group relative">
-                    <img src={u.avatar} alt={u.name} referrerPolicy="no-referrer" />
-                    <div className="absolute inset-0 bg-primary/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                       <span className="text-[8px] text-white font-black">{u.name.split(' ')[0]}</span>
+                  <div key={i} className="w-10 h-10 rounded-full border-4 border-card-bg bg-slate-100 shadow-lg overflow-hidden group relative">
+                    <img src={u.avatar} alt={u.name} referrerPolicy="no-referrer" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                       <span className="text-[8px] text-white font-black">{u.name}</span>
                     </div>
                   </div>
                 ))}
-                <div className="w-10 h-10 rounded-full border-4 border-white bg-secondary flex items-center justify-center shadow-lg text-white text-[9px] font-black">
+                <div className="w-10 h-10 rounded-full border-4 border-card-bg bg-secondary flex items-center justify-center shadow-lg text-primary font-bold text-[10px]">
                   +15k
                 </div>
               </div>
             </div>
-            <p className="text-[10px] text-slate-400 mt-2 font-medium italic">"Junte-se a 15.742 estudantes esta semana"</p>
           </div>
+
+          <p className="text-xs text-slate-400 font-medium">
+            Junte-se a <span className="font-bold text-primary">15.742 estudantes</span> estudando nesta manhã.
+          </p>
+        </div>
+      </div>
+
+      {/* Main Study module & Quote Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 space-y-4">
+          <div className="flex justify-between items-end">
+            <h3 className="text-xl text-primary font-display font-bold flex items-center gap-2">
+              <Brain className="w-5 h-5 text-secondary" /> Retomar de Onde Parou
+            </h3>
+          </div>
+          <div 
+            onClick={() => {
+              localStorage.setItem('selectedSubject', 'const');
+              onNavigate('quiz');
+            }}
+            className="relative h-60 rounded-[2rem] overflow-hidden cursor-pointer group active:scale-[0.99] transition-all duration-300 shadow-xl border border-secondary/15"
+          >
+            <img 
+              src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop" 
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              alt="Direito Constitucional"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent p-8 flex flex-col justify-end">
+              <div className="space-y-2">
+                <span className="inline-block bg-secondary text-primary text-[9px] font-black px-2.5 py-1 rounded-md uppercase tracking-widest mb-2">Artigo 5º da CF</span>
+                <h4 className="text-white font-display font-medium text-3xl">Direito Constitucional</h4>
+                <p className="text-slate-300 text-xs max-w-md font-medium">Revisão focada em Direitos Individuais e Coletivos com grande probabilidade de incidência.</p>
+              </div>
+              <div className="flex justify-between items-center mt-6 border-t border-white/10 pt-4">
+                 <div className="flex items-center gap-2 text-slate-300">
+                    <Clock className="w-4 h-4 text-secondary" />
+                    <span className="text-[11px] font-bold">Aproximadamente 15 minutos restantes</span>
+                 </div>
+                 <button className="bg-secondary text-primary font-bold text-xs px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 transition-transform duration-300 group-hover:translate-x-1">
+                    Praticar Questões <Play className="w-3 h-3 fill-current" />
+                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Daily axiom display card */}
+        <div className="bg-slate-50 dark:bg-slate-900/40 border border-secondary/10 p-8 rounded-[2rem] flex flex-col justify-between text-left space-y-6">
+          <div className="space-y-4">
+            <div className="p-3 bg-secondary/10 text-secondary w-fit rounded-2xl">
+              <Star className="w-6 h-6 fill-current" />
+            </div>
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Aforismo do Jurista</p>
+            <blockquote className="text-primary font-display italic text-lg leading-relaxed pt-2">
+              "A justiça apoia-se na clareza do direito; e a clareza do direito, no esforço diário de quem o estuda."
+            </blockquote>
+          </div>
+          <p className="text-slate-500 font-mono text-[10px] uppercase">Rumo à aprovação • Exame XXXIX</p>
+        </div>
+      </div>
+
+      {/* Vade Mecum Mini Banner */}
+      <section className="bg-gradient-to-br from-card-bg to-card-bg/40 p-8 rounded-[2.5rem] border border-secondary/10 shadow-xl flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(197,160,89,0.03),transparent)] pointer-events-none" />
+        <div className="w-24 h-24 md:w-32 md:h-32 bg-secondary/10 text-secondary rounded-[2rem] flex items-center justify-center shadow-inner group-hover:rotate-3 transition-transform duration-300 flex-shrink-0 border border-secondary/20">
+          <Gavel className="w-12 h-12 md:w-16 md:h-16" />
+        </div>
+        <div className="flex-1 text-center md:text-left space-y-4">
+          <div>
+            <span className="text-[10px] font-black text-secondary uppercase tracking-[0.2em] mb-1 block">BIBLIOTECA JURÍDICA PORTÁTIL</span>
+            <h3 className="text-2xl font-display font-bold text-primary">Vade Mecum Integrado</h3>
+            <p className="text-slate-500 text-sm mt-1 max-w-md italic">"A lei é a inteligência pública." — Acesse todos os códigos e leis atualizados sem carregar peso.</p>
+          </div>
+          <button 
+            onClick={() => onNavigate('vademecum')}
+            className="bg-primary hover:bg-secondary text-white hover:text-primary px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-xl hover:shadow-secondary/10 transition-all duration-300 flex items-center justify-center md:justify-start gap-3 active:scale-95"
+          >
+            Abrir Biblioteca <BookOpen className="w-4 h-4" />
+          </button>
         </div>
       </section>
 
-    <section className="space-y-4">
-      <div className="flex justify-between items-end">
-        <h3 className="text-2xl text-primary">Continuar Revisão</h3>
-        <button onClick={() => onNavigate('explore')} className="text-sm font-bold text-secondary hover:text-primary transition-colors flex items-center gap-1">
-          Ver Todas <ChevronRight className="w-4 h-4" />
-        </button>
-      </div>
-      <div 
-        onClick={() => {
-          localStorage.setItem('selectedSubject', 'const');
-          onNavigate('quiz');
-        }}
-        className="relative h-48 rounded-3xl overflow-hidden cursor-pointer group active:scale-[0.98] transition-all shadow-2xl shadow-primary/10 border border-white"
-      >
-      <img 
-        src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop" 
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-        alt="Direito Constitucional"
-        referrerPolicy="no-referrer"
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.src = "https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=600&auto=format&fit=crop";
-        }}
-      />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent p-6 flex flex-col justify-end">
-          <div className="space-y-1">
-            <span className="inline-block bg-secondary text-primary-container text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-tighter mb-2">EM REVISÃO</span>
-            <h4 className="text-white font-display font-bold text-2xl">Direito Constitucional</h4>
-            <p className="text-white/70 text-xs italic">Módulo 2: Direitos e Garantias Fundamentais</p>
-          </div>
-          <div className="flex justify-between items-center mt-4">
-             <div className="flex -space-x-2">
-                <div className="w-8 h-8 rounded-full border-2 border-primary bg-secondary flex items-center justify-center text-[10px] font-bold text-primary shadow-lg">DR</div>
-                <div className="w-8 h-8 rounded-full border-2 border-primary bg-primary-container"></div>
-             </div>
-             <button className="bg-card-bg text-primary px-5 py-2.5 rounded-2xl font-bold text-xs shadow-xl flex items-center gap-2 hover:bg-secondary hover:text-primary-container transition-colors">
-                Retomar Estudo <Play className="w-3 h-3 fill-current" />
-             </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section className="bg-gradient-to-br from-stone-50 to-stone-100 dark:from-stone-900 dark:to-stone-950 p-8 rounded-[2.5rem] border border-stone-200 dark:border-stone-800 shadow-xl shadow-stone-200/50 dark:shadow-none flex flex-col md:flex-row items-center gap-8 relative overflow-hidden group">
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(197,160,89,0.05),transparent)] pointer-events-none" />
-      <div className="w-24 h-24 md:w-32 md:h-32 bg-stone-200 dark:bg-stone-800 rounded-[2rem] flex items-center justify-center text-stone-600 dark:text-stone-300 shadow-inner group-hover:rotate-3 transition-transform flex-shrink-0">
-        <Gavel className="w-12 h-12 md:w-16 md:h-16" />
-      </div>
-      <div className="flex-1 text-center md:text-left space-y-4">
-        <div>
-          <span className="text-[10px] font-black text-stone-400 dark:text-stone-500 uppercase tracking-[0.2em] mb-1 block">BIBLIOTECA JURÍDICA</span>
-          <h3 className="text-2xl font-display font-bold text-primary">Vade Mecum Digital</h3>
-          <p className="text-slate-500 text-sm mt-1 max-w-md italic">"A lei é a inteligência pública." — Acesse todos os códigos e leis sem carregar peso.</p>
-        </div>
-        <button 
-          onClick={() => onNavigate('vademecum')}
-          className="bg-primary text-white px-8 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-secondary hover:text-white transition-all flex items-center justify-center md:justify-start gap-3 active:scale-95"
-        >
-          Abrir Vade Mecum <BookOpen className="w-4 h-4" />
-        </button>
-      </div>
-    </section>
-
-    <section className="space-y-4">
-      <h3 className="text-2xl text-primary font-display font-bold">Recomendado para Você</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <RecommendationCard 
-          image="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=600&auto=format&fit=crop"
-          subject="Processual Civil"
-          title="Teoria Geral dos Recursos"
-          duration="22 min"
-          onClick={() => {
-            localStorage.setItem('selectedSubject', 'proc_civil');
-            onNavigate('quiz');
-          }}
-        />
-        <RecommendationCard 
-          image="https://images.unsplash.com/photo-1453941403244-67253457053e?q=80&w=400&auto=format&fit=crop"
-          subject="Processual Penal"
-          title="Liberdade e Prisão Preventiva"
-          duration="20 min"
-          onClick={() => {
-            localStorage.setItem('selectedSubject', 'proc_penal');
-            onNavigate('quiz');
-          }}
-        />
-         <RecommendationCard 
-          image="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop"
-          subject="Direitos Humanos"
-          title="Pacto de San José da Costa Rica"
-          duration="15 min"
-          onClick={() => {
-            localStorage.setItem('selectedSubject', 'direitos_humanos');
-            onNavigate('quiz');
-          }}
-        />
-        <RecommendationCard 
-          image="https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=400&auto=format&fit=crop"
-          subject="Int. Privado"
-          title="Conflito de Leis no Espaço"
-          duration="28 min"
-          onClick={() => {
-            localStorage.setItem('selectedSubject', 'int_privado');
-            onNavigate('quiz');
-          }}
-        />
-        <RecommendationCard 
-          image="https://images.unsplash.com/photo-1554224155-1697467276d4?q=80&w=400&auto=format&fit=crop"
-          subject="Previdenciário"
-          title="Regras de Aposentadoria 2024"
-          duration="30 min"
-          onClick={() => {
-            localStorage.setItem('selectedSubject', 'previdencia');
-            onNavigate('quiz');
-          }}
-        />
-        <RecommendationCard 
-          image="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=400&auto=format&fit=crop"
-          subject="Hermenêutica"
-          title="Métodos de Interpretação"
-          duration="12 min"
-          onClick={() => {
-            localStorage.setItem('selectedSubject', 'hermeneutica');
-            onNavigate('quiz');
-          }}
-        />
-      </div>
-    </section>
-
-    <section className="space-y-4">
-      <div className="flex justify-between items-end">
-        <h3 className="text-2xl text-primary font-display font-bold">Doutrinas</h3>
-        <button onClick={() => onNavigate('explore')} className="text-xs font-black text-secondary uppercase tracking-widest hover:text-primary transition-colors">Ver Todas</button>
-      </div>
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-        {SUBJECTS.filter(s => ['proc_civil', 'proc_penal', 'direitos_humanos', 'int_publico', 'previdencia', 'eleitoral'].includes(s.id)).map(sub => (
-          <SubjectSummary 
-            key={sub.id}
-            icon={sub.icon}
-            label={sub.name.replace('Direito ', '')}
-            count={sub.quizzes}
-            color={sub.color}
-            text="text-primary"
+      {/* Recommended activities */}
+      <section className="space-y-6">
+        <h3 className="text-2xl text-primary font-display font-bold">Recomendações Especiais</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <RecommendationCard 
+            image="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=600&auto=format&fit=crop"
+            subject="Processual Civil"
+            title="Teoria Geral dos Recursos"
+            duration="22 min"
             onClick={() => {
-              localStorage.setItem('selectedSubject', sub.id);
+              localStorage.setItem('selectedSubject', 'proc_civil');
               onNavigate('quiz');
             }}
           />
-        ))}
-      </div>
-    </section>
-  </motion.div>
-);
+          <RecommendationCard 
+            image="https://images.unsplash.com/photo-1453941403244-67253457053e?q=80&w=400&auto=format&fit=crop"
+            subject="Processual Penal"
+            title="Liberdade e Prisão Preventiva"
+            duration="20 min"
+            onClick={() => {
+              localStorage.setItem('selectedSubject', 'proc_penal');
+              onNavigate('quiz');
+            }}
+          />
+          <RecommendationCard 
+            image="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop"
+            subject="Direitos Humanos"
+            title="Pacto de San José da Costa Rica"
+            duration="15 min"
+            onClick={() => {
+              localStorage.setItem('selectedSubject', 'direitos_humanos');
+              onNavigate('quiz');
+            }}
+          />
+          <RecommendationCard 
+            image="https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=400&auto=format&fit=crop"
+            subject="Int. Privado"
+            title="Conflito de Leis no Espaço"
+            duration="28 min"
+            onClick={() => {
+              localStorage.setItem('selectedSubject', 'int_privado');
+              onNavigate('quiz');
+            }}
+          />
+          <RecommendationCard 
+            image="https://images.unsplash.com/photo-1554224155-1697467276d4?q=80&w=400&auto=format&fit=crop"
+            subject="Previdenciário"
+            title="Regras de Aposentadoria 2024"
+            duration="30 min"
+            onClick={() => {
+              localStorage.setItem('selectedSubject', 'previdencia');
+              onNavigate('quiz');
+            }}
+          />
+          <RecommendationCard 
+            image="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=400&auto=format&fit=crop"
+            subject="Hermenêutica"
+            title="Métodos de Interpretação"
+            duration="12 min"
+            onClick={() => {
+              localStorage.setItem('selectedSubject', 'hermeneutica');
+              onNavigate('quiz');
+            }}
+          />
+        </div>
+      </section>
+
+
+    </motion.div>
+  );
 };
 
 const RecommendationCard = ({ image, subject, title, duration, onClick }: { image: string, subject: string, title: string, duration: string, onClick?: () => void }) => (
@@ -1797,7 +1854,7 @@ const ProfileScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, 
           <h1 className="text-4xl text-primary">{user?.user_metadata?.full_name || 'Estudante'}</h1>
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-primary rounded-2xl mt-4 shadow-xl border border-secondary/20">
             <Scale className="w-4 h-4 text-secondary" />
-            <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Bacharel em Direito</span>
+            <span className="text-[10px] font-black text-white uppercase tracking-[0.2em]">Estudante de Direito</span>
           </div>
         </div>
       </section>
@@ -1809,18 +1866,7 @@ const ProfileScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, 
         <ProfileStat value="Level 4" label="Graduação" />
       </section>
 
-      <section className="space-y-4 text-left">
-        <div className="flex justify-between items-center px-1">
-          <h2 className="text-2xl text-primary">Medalhas de Mérito</h2>
-          <button className="text-xs font-black text-secondary tracking-tighter uppercase">Todas</button>
-        </div>
-        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4 -mx-4 px-4">
-          <Achievement badge={<Flame className="w-8 h-8 text-orange-500 fill-orange-500" />} label="Série de 7 Dias" color="bg-orange-50 border-orange-100" />
-          <Achievement badge={<Scale className="w-8 h-8 text-primary fill-primary/20" />} label="Civilista" color="bg-blue-50 border-blue-100" />
-          <Achievement badge={<Gavel className="w-8 h-8 text-secondary fill-secondary/20" />} label="Penalista" color="bg-secondary/5 border-secondary/10" />
-          <Achievement badge={<Briefcase className="w-8 h-8 text-purple-500 fill-purple-500/20" />} label="Trabalhista" color="bg-purple-50 border-purple-100" />
-        </div>
-      </section>
+
 
       <section className="space-y-4 text-left">
         <h2 className="text-2xl text-primary">Classificação na Ordem</h2>
