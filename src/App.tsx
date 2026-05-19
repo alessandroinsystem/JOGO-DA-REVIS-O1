@@ -2456,7 +2456,7 @@ export default function App() {
       return `Simulado: ${subName}`;
     }
     if (screen === 'results') return "Desempenho Jurídico";
-    if (screen === 'profile') return "Perfil do Advogado";
+    if (screen === 'profile') return "Meu Perfil";
     if (screen === 'edit-profile') return "Dados da OAB";
     if (screen === 'reminders') return "Agenda de Audiências";
     return "Direito em Foco";
