@@ -72,6 +72,26 @@ interface Reminder {
 
 // --- Data ---
 
+const LAW_IMAGES = [
+  "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop", // Gavel Courtroom
+  "https://images.unsplash.com/photo-1589244159943-460088ed5c92?q=80&w=600&auto=format&fit=crop", // Scales of Justice
+  "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format&fit=crop", // Law book & gavel
+  "https://images.unsplash.com/photo-1505664194762-85b1758c5f40?q=80&w=600&auto=format&fit=crop", // Antique legal book
+  "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=600&auto=format&fit=crop", // Signing justice documents
+  "https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=600&auto=format&fit=crop", // Business consulting
+  "https://images.unsplash.com/photo-1447069387593-a5de0862481e?q=80&w=600&auto=format&fit=crop", // Library documents
+  "https://images.unsplash.com/photo-1528747045269-390fe33c19f2?q=80&w=600&auto=format&fit=crop", // Legal books shelves
+  "https://images.unsplash.com/photo-1505664063603-23e56228b368?q=80&w=600&auto=format&fit=crop", // Classic laws
+  "https://images.unsplash.com/photo-1621574539437-4b7cb63120b8?q=80&w=600&auto=format&fit=crop"  // Court desk setup
+];
+
+const getRandomLawImage = (index?: number) => {
+  if (typeof index === 'number') {
+    return LAW_IMAGES[index % LAW_IMAGES.length];
+  }
+  return LAW_IMAGES[Math.floor(Math.random() * LAW_IMAGES.length)];
+};
+
 const SUBJECTS: Subject[] = [
   { id: 'const', name: 'Direito Constitucional', description: 'Direitos fundamentais e organização do Estado.', quizzes: 142, level: 'Beginner', icon: <Scale className="w-8 h-8" />, color: 'bg-blue-50 text-blue-900' },
   { id: 'civil', name: 'Direito Civil', description: 'Contratos, família e sucessões.', quizzes: 186, level: 'Intermediate', icon: <BookOpen className="w-8 h-8" />, color: 'bg-emerald-50 text-emerald-900' },
@@ -1020,13 +1040,12 @@ const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Scr
       </div>
 
       {/* Bento Dashboard Statistics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Metas Card */}
         <div className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/10 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden group">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">METAS OAB</p>
-              <span className="text-[10px] font-black text-secondary bg-secondary/15 px-3 py-1 rounded-full">{completedPct}% Concluído</span>
             </div>
             
             <h3 className="text-lg font-bold text-primary font-display">Meta Semanal de Simulados</h3>
@@ -1053,36 +1072,11 @@ const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Scr
           </div>
         </div>
 
-        {/* Experience Points Card */}
-        <div className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/10 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden group">
-          <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">PERFORMANCE</p>
-              <span className="flex items-center gap-1 text-[10px] font-black text-green-500 bg-green-500/10 px-2.5 py-1 rounded-full">
-                <TrendingUp className="w-3 h-3" /> Nível 4
-              </span>
-            </div>
-            
-            <div>
-              <div className="text-3xl font-display font-medium text-primary">1.240 XP</div>
-              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Pontos acumulados esta semana</p>
-            </div>
-          </div>
-
-          <p className="text-xs text-slate-500 italic mt-auto border-t border-primary/5 pt-3">
-            Você está entre os 15% melhores estudantes do país esta semana.
-          </p>
-        </div>
-
         {/* Community studies group */}
         <div className="bg-card-bg/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-secondary/10 shadow-xl flex flex-col justify-between space-y-6 relative overflow-hidden group">
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">COMUNIDADE</p>
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-black text-secondary bg-secondary/15 px-3 py-1 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-secondary block animate-ping" />
-                AO VIVO
-              </span>
             </div>
 
             <div className="space-y-1">
@@ -1270,7 +1264,7 @@ const RecommendationCard = ({ image, subject, title, duration, onClick }: { imag
         referrerPolicy="no-referrer" 
         onError={(e) => {
           const target = e.target as HTMLImageElement;
-          target.src = "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=400&auto=format&fit=crop";
+          target.src = getRandomLawImage();
         }}
       />
       <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -1461,13 +1455,13 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
           className="relative aspect-video rounded-3xl overflow-hidden shadow-xl group cursor-pointer active:scale-[0.99] transition-transform"
         >
           <img 
-            src="https://images.unsplash.com/photo-1505664194762-85b1758c5f40?q=80&w=500&auto=format&fit=crop" 
+            src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=800&auto=format&fit=crop" 
             alt="Justiça"
             className="w-full h-full object-cover transition-transform duration-[10s] group-hover:scale-110"
             referrerPolicy="no-referrer"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
-              target.src = "https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=800&auto=format&fit=crop";
+              target.src = getRandomLawImage();
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent p-6 flex flex-col justify-end">
@@ -1670,7 +1664,7 @@ const QuizScreen = ({ questions, onComplete }: { questions: any[], onComplete: (
               referrerPolicy="no-referrer"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = "https://images.unsplash.com/photo-1521791136064-7986c2923216?q=80&w=800&auto=format&fit=crop";
+                target.src = getRandomLawImage();
               }}
             />
           </div>
@@ -2045,21 +2039,6 @@ const AuthScreen = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    if (!supabase) {
-      setError('Configuração do Supabase ausente.');
-      return;
-    }
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-      });
-      if (error) throw error;
-    } catch (err: any) {
-      setError(err.message || 'Erro no login com Google.');
-    }
-  };
-
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -2132,23 +2111,6 @@ const AuthScreen = () => {
             {loading ? 'Carregando...' : (isLogin ? 'Entrar' : 'Cadastrar')}
           </button>
         </form>
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-200"></div>
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-bg-main px-2 text-slate-400">Ou continue com</span>
-          </div>
-        </div>
-
-        <button 
-          onClick={handleGoogleLogin}
-          className="w-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-card-border font-bold py-4 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition-transform"
-        >
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" className="w-5 h-5" alt="Google" referrerPolicy="no-referrer" />
-          Login com Google
-        </button>
 
         <p className="text-center text-sm text-slate-500">
           {isLogin ? 'Não tem uma conta?' : 'Já tem uma conta?'}
