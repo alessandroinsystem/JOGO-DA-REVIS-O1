@@ -51,27 +51,32 @@ import { motion, AnimatePresence } from 'motion/react';
 
 // --- Types ---
 
+// Definição dos tipos de telas válidos para controle de fluxo e navegação interna na aplicação SPA
 type Screen = 'home' | 'explore' | 'quiz' | 'results' | 'profile' | 'reminders' | 'auth' | 'edit-profile' | 'vademecum' | 'ultima-prova';
 
+// Interface TypeScript que define a estrutura de representação de uma Disciplina/Matéria do Direito
 interface Subject {
-  id: string;
-  name: string;
-  description: string;
-  quizzes: number;
-  level: 'Beginner' | 'Intermediate' | 'Advanced';
-  icon: React.ReactNode;
-  color: string;
+  id: string;          // Identificador único curto da matéria (ex: 'const', 'civil')
+  name: string;        // Título oficial da matéria exibido nas interfaces do app
+  description: string; // Resumo abordando o objeto de estudo daquela matéria
+  quizzes: number;     // Número total estimado de questões estruturadas para estudo
+  level: 'Beginner' | 'Intermediate' | 'Advanced'; // Classificação de complexidade da matéria
+  icon: React.ReactNode; // Componente React correspondente ao ícone visual da biblioteca Lucide React
+  color: string;       // String contendo classes de estilização de cores de fundo e texto no Tailwind CSS
 }
 
+// Interface TypeScript que define o formato de dados de cada Lembrete de Estudo programado pelo aluno
 interface Reminder {
-  id: string;
-  subjectId: string;
-  time: string;
-  active: boolean;
+  id: string;        // Identificador exclusivo alfa-numérico gerado dinamicamente
+  subjectId: string; // ID da matéria associada ao horário de estudo configurado
+  time: string;      // String representativa da hora e minuto configurada (formato HH:MM)
+  active: boolean;   // Status boleano determinando se o lembrete está habilitado/ativo ou inativo
 }
 
 // --- Data ---
 
+// Coleção selecionada de links de imagens profissionais de alta qualidade focadas no tema direito e justiça (Unsplash)
+// Servem para enriquecer as capas e backgrounds dos cards de forma sofisticada e realista.
 const LAW_IMAGES = [
   "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop", // Gavel Courtroom
   "https://images.unsplash.com/photo-1589244159943-460088ed5c92?q=80&w=600&auto=format&fit=crop", // Scales of Justice
@@ -85,13 +90,19 @@ const LAW_IMAGES = [
   "https://images.unsplash.com/photo-1621574539437-4b7cb63120b8?q=80&w=600&auto=format&fit=crop"  // Court desk setup
 ];
 
+// Função utilitária que seleciona uma imagem jurídica aleatória ou específica de nossa coleção de alta qualidade.
+// @param index - Parâmetro opcional para buscar um índice sequencial estático de forma determinística
 const getRandomLawImage = (index?: number) => {
   if (typeof index === 'number') {
+    // Escolhe dinamicamente usando operador de resto da divisão para não estourar o tamanho do array
     return LAW_IMAGES[index % LAW_IMAGES.length];
   }
+  // Retorna uma imagem randômica se nenhum índice for especificado
   return LAW_IMAGES[Math.floor(Math.random() * LAW_IMAGES.length)];
 };
 
+// Catálogo completo de Disciplinas/Matérias do Exame de Ordem (OAB) disponíveis no aplicativo.
+// Cada elemento possui o identificador, nome exibido, descrição, nível e componentes visuais específicos.
 const SUBJECTS: Subject[] = [
   { id: 'const', name: 'Direito Constitucional', description: 'Direitos fundamentais e organização do Estado.', quizzes: 142, level: 'Beginner', icon: <Scale className="w-8 h-8" />, color: 'bg-blue-50 text-blue-900' },
   { id: 'civil', name: 'Direito Civil', description: 'Contratos, família e sucessões.', quizzes: 186, level: 'Intermediate', icon: <BookOpen className="w-8 h-8" />, color: 'bg-emerald-50 text-emerald-900' },
@@ -805,6 +816,11 @@ const LAW_QUESTIONS: Record<string, any[]> = {
 
 // --- Components ---
 
+// --- Components ---
+
+// Componente TopBar: Barra superior de cabeçalho fixa.
+// Gerencia a exibição do título da tela ativa, botões de retrocesso personalizados tanto para mobile
+// quanto para desktop, e a funcionalidade de chaveamento entre os temas Claro (Light) e Escuro (Dark).
 const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer = false, isDarkMode, onToggleTheme, user, onNavigate }: { 
   title?: string, 
   showBack?: boolean, 
@@ -818,12 +834,15 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
   <header className="bg-card-bg/70 backdrop-blur-2xl border-b border-primary/5 fixed top-0 w-full z-50 transition-all">
     <div className="flex justify-between items-center px-6 h-20 max-w-7xl mx-auto">
       <div className="flex items-center gap-4">
+        {/* Bloco exclusivo para telas mobile (md:hidden) */}
         <div className="md:hidden">
+          {/* Se a tela atual permitir voltar (ex: em simulados ou edição), exibe o ícone de seta */}
           {showBack && (
             <button onClick={onBack} className="p-2.5 -ml-3 rounded-2xl hover:bg-secondary/10 transition-colors active:scale-90 text-primary">
               <ArrowLeft className="w-6 h-6" />
             </button>
           )}
+          {/* Caso não seja tela de retrocesso e o usuário esteja logado, exibe sua foto de perfil como atalho de navegação */}
           {!showBack && user && (
             <div 
               onClick={() => onNavigate?.('profile')}
@@ -842,15 +861,18 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
             </div>
           )}
         </div>
+        {/* Bloco exclusivo para telas desktop (Hidden md:flex) para botão Voltar estruturado */}
         {showBack && (
           <button onClick={onBack} className="hidden md:flex p-2.5 -ml-3 rounded-2xl hover:bg-secondary/10 transition-colors active:scale-90 text-primary items-center gap-2">
             <ArrowLeft className="w-6 h-6" />
             <span className="text-sm font-bold">Voltar</span>
           </button>
         )}
+        {/* Renderiza o título dinâmico da tela ativa com limites e tratamento de texto comprimido (truncate) se necessário */}
         <span className="font-display font-bold text-lg text-primary tracking-tight truncate max-w-[180px] md:max-w-none ml-2 md:ml-0">{title}</span>
       </div>
       
+      {/* Botão de alternância do modo escuro/claro que controla a classe "dark" do elemento root */}
       <div className="flex items-center gap-3">
         <button 
           onClick={onToggleTheme}
@@ -864,6 +886,8 @@ const TopBar = ({ title = "Direito em Foco", showBack = false, onBack, showTimer
 );
 
 
+// Componente BottomNav: Menu de navegação inferior voltado para dispositivos móveis (MD:HIDDEN).
+// Permite a alternância rápida de telas facilitando o alcance do polegar do usuário.
 const BottomNav = ({ active, onChange }: { active: Screen, onChange: (s: Screen) => void }) => (
   <nav className="md:hidden bg-card-bg/80 backdrop-blur-2xl fixed bottom-0 w-full border-t border-primary/5 shadow-[0_-10px_40px_rgba(26,35,126,0.08)] z-50 transition-all">
     <div className="flex justify-around items-center px-6 h-24 max-w-lg mx-auto">
@@ -901,6 +925,8 @@ const BottomNav = ({ active, onChange }: { active: Screen, onChange: (s: Screen)
   </nav>
 );
 
+// Componente Sidebar: Menu de navegação lateral exibido apenas em resoluções desktop (HIDDEN md:flex).
+// Conta também com um minicard na base que expõe os metadados do usuário logado (nome, foto e status).
 const Sidebar = ({ active, onChange, user }: { active: Screen, onChange: (s: Screen) => void, user: SupabaseUser | null }) => (
   <aside className="hidden md:flex flex-col w-64 fixed left-0 top-0 h-full bg-card-bg border-r border-primary/5 pt-28 px-6 z-40">
     <div className="flex flex-col gap-2 flex-grow">
@@ -942,6 +968,7 @@ const Sidebar = ({ active, onChange, user }: { active: Screen, onChange: (s: Scr
       />
     </div>
     
+    {/* Minicard na parte inferior da barra mostrando perfil rápido se autenticado */}
     {user && (
       <div className="mb-10 p-4 bg-primary/5 rounded-[2rem] border border-primary/5 flex items-center gap-3">
         <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm">
@@ -961,6 +988,8 @@ const Sidebar = ({ active, onChange, user }: { active: Screen, onChange: (s: Scr
   </aside>
 );
 
+// Componente SidebarItem: Botão unitário utilizado na Sidebar lateral com estilos condicionais elegantes
+// de foco e seleção ativos e hover transitions baseados em Tailwind.
 const SidebarItem = ({ icon, label, active, onClick }: { icon: React.ReactNode, label: string, active: boolean, onClick: () => void }) => (
   <button 
     onClick={onClick}
@@ -971,6 +1000,8 @@ const SidebarItem = ({ icon, label, active, onClick }: { icon: React.ReactNode, 
   </button>
 );
 
+// Componente NavItem: Elemento de botão unitário usado no menu de navegação inferior (BottomNav) dos celulares.
+// Oferece transições suaves no ícone e rótulo quando o status se altera para "ativo".
 const NavItem = ({ icon, label, active, onClick }: { icon: React.ReactNode, label: string, active: boolean, onClick: () => void }) => (
   <button 
     onClick={onClick}
@@ -985,7 +1016,12 @@ const NavItem = ({ icon, label, active, onClick }: { icon: React.ReactNode, labe
 
 // --- Pages ---
 
+// Tela HomeScreen: Painel principal (Dashboard) do Estudante de Direito.
+// Exibe saudações dinâmicas, barra de progresso semanal de simulados,
+// lista de amigos ativos na mesa de estudos, atalho para retomar a última sessão,
+// aforismos jurídicos diários e cartões de recomendações especiais de estudo.
 const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Screen) => void, user: SupabaseUser | null, simulations?: number }) => {
+  // Lista simulada de membros/colegas na mesa de estudos ativa simultaneamente
   const recentUsers = [
     { name: "Juliana", avatar: "https://i.pravatar.cc/150?u=12" },
     { name: "Marcos", avatar: "https://i.pravatar.cc/150?u=45" },
@@ -993,13 +1029,15 @@ const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Scr
     { name: "Ricardo", avatar: "https://i.pravatar.cc/150?u=33" }
   ];
 
+  // Função interna para obter saudação baseada no horário atual da máquina do usuário
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Bom dia";
-    if (hour < 18) return "Boa tarde";
-    return "Boa noite";
+    if (hour < 12) return "Bom dia";      // Manhã (antes de 12:00)
+    if (hour < 18) return "Boa tarde";    // Tarde (12:00 até 17:59)
+    return "Boa noite";                  // Noite (18:00 em diante)
   };
 
+  // Cálculo da porcentagem completada da meta semanal (cada simulado equivale a 10% da meta de 10)
   const completedPct = simulations > 0 ? Math.min(simulations * 10, 100) : 0;
 
   return (
@@ -1251,6 +1289,9 @@ const HomeScreen = ({ onNavigate, user, simulations = 0 }: { onNavigate: (s: Scr
   );
 };
 
+// Componente RecommendationCard: Cartão de estudo individual sugerido.
+// Renderiza uma capa fotográfica tematizada, identificação da disciplina, título do assunto,
+// tempo estimado de estudo e suporte a cliques (callbacks) para início rápido do simulado específico.
 const RecommendationCard = ({ image, subject, title, duration, onClick }: { image: string, subject: string, title: string, duration: string, onClick?: () => void }) => (
   <div 
     onClick={onClick}
@@ -1263,6 +1304,7 @@ const RecommendationCard = ({ image, subject, title, duration, onClick }: { imag
         alt={title}
         referrerPolicy="no-referrer" 
         onError={(e) => {
+          // Trata falhas de carregamento carregando uma imagem aleatória confiável do acervo do Vade Mecum
           const target = e.target as HTMLImageElement;
           target.src = getRandomLawImage();
         }}
@@ -1282,6 +1324,8 @@ const RecommendationCard = ({ image, subject, title, duration, onClick }: { imag
   </div>
 );
 
+// Componente SubjectSummary: Card compacto detalhando sumários de disciplinas e contagem de simulados.
+// Exibe ícone, nome do ramo e ações de redirecionamento.
 const SubjectSummary = ({ icon, label, count, color, text, onClick }: { key?: React.Key, icon: React.ReactNode, label: string, count: number, color: string, text: string, onClick?: () => void }) => (
   <div 
     onClick={onClick}
@@ -1297,19 +1341,31 @@ const SubjectSummary = ({ icon, label, count, color, text, onClick }: { key?: Re
   </div>
 );
 
+// Tela ExploreScreen: Catálogo completo de matérias e disciplinas doutrinárias.
+// Permite buscar disciplinas em tempo real (Constitucional, Penal, Civil, etc.),
+// carregar mais matérias sequencialmente sob demanda (lazy loading simulated)
+// e exibe o "Caso Jurídico do Dia" com jurisprudências e dilemas de ética.
 const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
+  // Controle de estado para exibir esqueleto animado (Skeleton layout loading)
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Variável que guarda a palavra digitada na caixa de busca pelo estudante
   const [search, setSearch] = useState('');
+  
+  // Limite inicial de disciplinas visíveis (exibe de 4 em 4 usando .slice())
   const [visibleLimit, setVisibleLimit] = useState(4);
 
+  // Efeito useEffect de simulação de carga: gera um pequeno atraso (800ms) ao carregar
+  // a tela, conferindo um aspecto realista de busca assíncrona ao utilizador.
   React.useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // Limpa o temporizador se o componente desmontar
   }, []);
 
+  // Inicia um simulado salvando a matéria escolhida no localStorage para que a tela de Quiz saiba de onde puxar
   const startQuiz = (id: string) => {
     localStorage.setItem('selectedSubject', id);
-    onNavigate('quiz');
+    onNavigate('quiz'); // Direciona para a tela do questionário
   };
 
   const filteredSubjects = SUBJECTS.filter(s => 
@@ -1475,7 +1531,11 @@ const ExploreScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
   );
 };
 
+// Tela UltimaProvaScreen: Centralizador oficial da última prova unificada da OAB.
+// Renderiza o caderno oficial de questões unificado (PDF) diretamente no navegador,
+// utilizando o visualizador embutidor do Google Docs Viewer, permitindo também o download do arquivo.
 const UltimaProvaScreen = () => {
+  // URL absoluta correspondente ao documento PDF oficial do Exame da Ordem do site da OAB/FGV
   const fileUrl = "https://s.oab.org.br/arquivos/2025/08/fda2cc49-fbbd-4893-9b75-0f61c177cd5d.pdf";
   
   return (
@@ -1497,6 +1557,7 @@ const UltimaProvaScreen = () => {
             </div>
             <span className="text-xs font-bold text-primary uppercase tracking-widest">Documento PDF Oficial</span>
           </div>
+          {/* Botão de download direto do PDF oficial da OAB */}
           <a 
             href={fileUrl} 
             download 
@@ -1508,6 +1569,7 @@ const UltimaProvaScreen = () => {
         </div>
         
         <div className="flex-1 relative">
+          {/* Visualizador do PDF utilizando proxy embutido do Google Docs */}
           <iframe 
             src={`https://docs.google.com/viewer?url=${encodeURIComponent(fileUrl)}&embedded=true`}
             className="w-full h-full border-none"
@@ -1531,7 +1593,11 @@ const UltimaProvaScreen = () => {
   );
 };
 
+// Tela VademecumScreen: Biblioteca digital compacta para pesquisa rápida de leis.
+// Apresenta links diretos do governo para a Constituição Federal, Códigos (Civil, Penal, CLT),
+// Estatuto da OAB e disposições de processamento, filtrados em tempo real por um buscador textual.
 const VademecumScreen = () => {
+  // Vetor contendo a base de dados de leis principais com descrição inicial e link oficial para o Planalto
   const laws = [
     { title: "Constituição Federal", year: "1988", excerpt: "Nós, representantes do povo brasileiro, reunidos em Assembleia Nacional Constituinte...", link: "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm" },
     { title: "Código Civil", year: "2002", excerpt: "Art. 1º Toda pessoa é capaz de direitos e deveres na ordem civil.", link: "https://www.planalto.gov.br/ccivil_03/leis/2002/l10406compilada.htm" },
@@ -1602,26 +1668,38 @@ const VademecumScreen = () => {
   );
 };
 
+// Tela QuizScreen: Motor lógico dos simulados da OAB e responder questões.
+// Controla o índice da questão ativa, a alternativa clicada e o acúmulo de acertos (score).
+// No fim do simulado, salva o rendimento do aluno no localStorage e aciona o encerramento do bloco.
 const QuizScreen = ({ questions, onComplete }: { questions: any[], onComplete: (score: number) => void }) => {
+  // Índice representando a questão em andamento (0 a N)
   const [currentIdx, setCurrentIdx] = useState(0);
+  
+  // Opção escolhida no momento pelo aluno (A=0, B=1, C=2, D=3). Nulo quando nenhuma for assinalada.
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  
+  // Somatória ou totalizador de respostas corretas alcançadas no bloco
   const [score, setScore] = useState(0);
 
+  // Seleciona o objeto de questão referencial baseado no índice atual
   const question = questions[currentIdx];
 
+  // Função disparada ao clicar para prosseguir para o próximo quesito
   const handleNext = () => {
+    // Verifica se a opção marcada equivale ao index gabarito (question.correct)
     const isCorrect = selectedOption === question.correct;
     const finalScore = isCorrect ? score + 1 : score;
     
+    // Se ainda houver questões no questionário:
     if (currentIdx < questions.length - 1) {
-      setScore(finalScore);
-      setCurrentIdx(i => i + 1);
-      setSelectedOption(null);
+      setScore(finalScore);         // Atualiza pontuação parcial
+      setCurrentIdx(i => i + 1);    // Incrementa ponteiro do vetor
+      setSelectedOption(null);      // Limpa seleção do usuário para o próximo quesito
     } else {
-      // Salvar resultado (opcional) e finalizar
+      // Se era a última pergunta, salva no LocalStorage persistindo os acertos e avança
       localStorage.setItem('lastScore', finalScore.toString());
       localStorage.setItem('totalQuestions', questions.length.toString());
-      onComplete(finalScore);
+      onComplete(finalScore);       // Invoca o callback de conclusão configurado no App.tsx
     }
   };
 
@@ -1704,6 +1782,9 @@ interface QuizOptionProps {
   onClick: () => void;
 }
 
+// Componente QuizOption: Alternativa unitária do simulado (A, B, C, D).
+// Exibe seu índice em letra correspondente (gerado dinamicamente via ASCII/String.fromCharCode).
+// Muda as bordas, sombras e cores de fundo no Tailwind baseado no status "active".
 const QuizOption = ({ letter, text, active = false, onClick }: QuizOptionProps) => (
   <button 
     onClick={onClick}
@@ -1720,9 +1801,17 @@ const QuizOption = ({ letter, text, active = false, onClick }: QuizOptionProps) 
   </button>
 );
 
+// Tela ResultsScreen: Relatório gerencial final do simulado recém-concluído.
+// Carrega as pontuações e quesitos totais guardados no localStorage, tirando a média
+// para classificar se o aluno está "Apto" (>= 70%) ou "Em Formação".
 const ResultsScreen = ({ onNavigate }: { onNavigate: (s: Screen) => void }) => {
+  // Puxa a pontuação guardada no localStorage ao finalizar o simulado
   const lastScore = parseInt(localStorage.getItem('lastScore') || '0');
+  
+  // Puxa o total de questões que compunham aquele simulado específico
   const totalQuestions = parseInt(localStorage.getItem('totalQuestions') || '5');
+  
+  // Calcula matematicamente o aproveitamento percentual de respostas procedentes
   const percentage = Math.round((lastScore / totalQuestions) * 100);
 
   return (
@@ -1810,16 +1899,24 @@ const StatCard = ({ variant, value, label }: { variant: 'success' | 'danger', va
   </div>
 );
 
+// Tela ProfileScreen: Painel do perfil pessoal acadêmico do utilizador.
+// Exibe avatar do estudante, classificação/rank atual de pontuação para o exame de ordem (leaderboard),
+// contadores de estatísticas de precisão de simulados e redirecionadores para dados da conta.
 const ProfileScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, user: SupabaseUser | null }) => {
+  // Função que executa a saída (logout) do usuário chamando o client SDK do Supabase
   const handleLogout = async () => {
-    if (!supabase) return;
+    if (!supabase) return; // Retorna imediatamente caso o Supabase não esteja provisionado
     try {
+      // Dispara o encerramento de sessão remoto no Supabase Auth
       await supabase.auth.signOut();
-      localStorage.removeItem('supabase.auth.token'); // Limpeza extra
-      onNavigate('auth');
+      
+      // Limpa dados residuais de tokens e sessões locais de autenticação no browser
+      localStorage.removeItem('supabase.auth.token'); 
+      
+      onNavigate('auth'); // Redireciona o estudante de volta à tela de login
     } catch (err) {
       console.error('Logout error:', err);
-      onNavigate('auth');
+      onNavigate('auth'); // Redireciona de forma resiliente mesmo em caso de erro na rede
     }
   };
 
@@ -1898,6 +1995,9 @@ const ProfileScreen = ({ onNavigate, user }: { onNavigate: (s: Screen) => void, 
   );
 };
 
+// Tela RemindersScreen: Gerenciador da agenda de revisões periódicas do aluno.
+// Controla o dropdown de seleção de disciplinas, seletor de horários (time picker)
+// e repassa funções herdadas de salvamento, remoção e chaveamento de status ativo/inativo.
 const RemindersScreen = ({ reminders, subjects, onAdd, onDelete, onToggle }: { 
   reminders: Reminder[], 
   subjects: Subject[],
@@ -1905,9 +2005,13 @@ const RemindersScreen = ({ reminders, subjects, onAdd, onDelete, onToggle }: {
   onDelete: (id: string) => void,
   onToggle: (id: string) => void
 }) => {
+  // Guarda a disciplina selecionada pelo estudante para configurar o novo alerta de estudos
   const [selectedSubject, setSelectedSubject] = useState(subjects[0].id);
+  
+  // Guarda o horário (time picker) selecionado, com padrão às 09:00h da manhã
   const [selectedTime, setSelectedTime] = useState('09:00');
 
+  // Dispara o callback para registrar o novo lembrete com ID gerado dinamicamente
   const handleAdd = () => {
     onAdd({ subjectId: selectedSubject, time: selectedTime });
   };
@@ -1999,43 +2103,57 @@ const RemindersScreen = ({ reminders, subjects, onAdd, onDelete, onToggle }: {
   );
 };
 
+// Tela AuthScreen: Sistema de controle de acesso (Login e Cadastro).
+// Altera estados entre telas de login ou cadastro (isLogin) e utiliza o Supabase Client
+// para registrar novos e-mails ou validar credenciais criptografadas existentes com tratamento de erros.
 const AuthScreen = () => {
+  // Controle booleano: true exibe formulário de Login, false de Cadastro de nova conta
   const [isLogin, setIsLogin] = useState(true);
+  
+  // States correspondentes à captura das caixas de entrada textuais (inputs)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
+  
+  // State de controle de erros do Supabase Auth para exibir na UI em tarja vermelha
   const [error, setError] = useState<string | null>(null);
+  
+  // State indicativo de aguardando resposta da API do Supabase (loading spinner/disabled)
   const [loading, setLoading] = useState(false);
 
+  // Manipulador do envio do formulário (submissão)
   const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); // Impede o recarregamento natural da página
     if (!supabase) {
       setError('Configuração do Supabase ausente.');
       return;
     }
-    setError(null);
-    setLoading(true);
+    setError(null);      // Reseta erros prévios
+    setLoading(true);    // Define estado de aguardando API ativa
 
     try {
       if (isLogin) {
+        // Fluxo 1: Efetuar autenticação de login de usuário existente
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
       } else {
+        // Fluxo 2: Efetuar registro de cadastro de um novo utilizador
         const { error } = await supabase.auth.signUp({
           email,
           password,
           options: {
             data: {
-              full_name: fullName,
+              full_name: fullName, // Persiste o Nome Completo na coluna user_metadata do auth.users do Supabase
             }
           }
         });
         if (error) throw error;
       }
     } catch (err: any) {
+      // Repassa o erro de autenticação amigável pego da resposta da API
       setError(err.message || 'Erro durante a autenticação.');
     } finally {
-      setLoading(false);
+      setLoading(false);  // Desativa tela de bloqueio de formulário
     }
   };
 
@@ -2127,12 +2245,23 @@ const AuthScreen = () => {
   );
 };
 
+// Tela EditProfileScreen: Editores e capturas cadastrais do usuário autenticado.
+// Lê e altera o Nome Completo e Foto de Perfil (Avatar). Converte imagens enviadas localmente
+// pelo computador do estudante em strings codificadas em Base64 (DataURLs) via FileReader.
 const EditProfileScreen = ({ user, onBack }: { user: SupabaseUser | null, onBack: () => void }) => {
+  // Inicializa o state com o nome cadastrado no metadata do usuário Supabase logado
   const [fullName, setFullName] = useState(user?.user_metadata?.full_name || '');
+  
+  // Inicializa o link ou String Base64 correspondente à foto do avatar
   const [avatarUrl, setAvatarUrl] = useState(user?.user_metadata?.avatar_url || '');
+  
+  // State indicativo de salvamento pendente na API Supabase
   const [loading, setLoading] = useState(false);
+  
+  // State de controle de alertas contendo mensagem de sucesso ou erro
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
+  // Submissão do editor: Atualiza o objeto do usuário na tabela Auth do Supabase
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!supabase) return;
@@ -2140,6 +2269,7 @@ const EditProfileScreen = ({ user, onBack }: { user: SupabaseUser | null, onBack
     setMessage(null);
 
     try {
+      // Envia uma instrução de patch de metadados ao serviço Supabase Auth
       const { error } = await supabase.auth.updateUser({
         data: {
           full_name: fullName,
@@ -2156,19 +2286,25 @@ const EditProfileScreen = ({ user, onBack }: { user: SupabaseUser | null, onBack
     }
   };
 
+  // Evento disparado quando o utilizador clica no ícone de Câmera e escolhe um novo arquivo de imagem
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0]; // Captura a primeira imagem escolhida nos arquivos locais
     if (file) {
-      // Validar tamanho (opcional, mas bom para evitar estouro de metadados se for muito grande)
+      // Impede envios de imagens gigantes (limita a 200KB) para que a gravação em Base64 caiba nos metadados da conta
       if (file.size > 200000) { // ~200KB
         setMessage({ type: 'error', text: 'A imagem deve ter menos de 200KB.' });
         return;
       }
 
+      // Classe nativa do JavaScript para ler arquivos binários de e-mails/computadores locais
       const reader = new FileReader();
+      
+      // Função assíncrona disparada após concluir a conversão do arquivo
       reader.onloadend = () => {
+        // Converte o arquivo lido em string Base64 e insere no avatar url do state
         setAvatarUrl(reader.result as string);
       };
+      // Inicia a transformação da imagem jogando os dados convertidos para strings base64 url
       reader.readAsDataURL(file);
     }
   };
